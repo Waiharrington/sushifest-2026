@@ -87,7 +87,7 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 40 }}
                         transition={{ type: "spring", damping: 25, stiffness: 400 }}
-                        style={{ willChange: 'transform, opacity' } as any}
+                        style={{ willChange: 'transform, opacity' } as React.CSSProperties}
                         className="relative w-full max-w-md bg-[#0A021A]/80 border border-white/10 rounded-[3rem] shadow-[0_25px_100px_rgba(0,0,0,1)] p-8 pt-16 overflow-visible backdrop-blur-3xl"
                     >
                         {/* Background Shine */}
