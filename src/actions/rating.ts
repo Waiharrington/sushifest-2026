@@ -95,18 +95,22 @@ export async function submitRatingAndVote(
 export async function getUserInteractions(userId: string) {
     if (!userId) return {}
 
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (!serviceRoleKey) return {}
+    const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey)
+
     // Fetch all ratings for this user
-    const { data: ratings } = await supabase
+    const { data: ratings } = await supabaseAdmin
         .from('ratings')
         .select('locale_id')
         .eq('user_id', userId)
 
     // Fetch the unique vote for this user
-    const { data: vote } = await supabase
+    const { data: vote } = await supabaseAdmin
         .from('votes')
         .select('locale_id')
         .eq('user_id', userId)
-        .single()
+        .maybeSingle()
 
     const interactions: Record<string, { isRated: boolean, isVoted: boolean }> = {}
 

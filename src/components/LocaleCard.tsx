@@ -22,17 +22,27 @@ export function LocaleCard({ locale, onVoteClick, rank, isRated, isVoted }: Loca
         <motion.div
             whileHover={{ y: -5, scale: 1.02 }}
             whileTap={{ scale: 0.98, borderColor: "#00B2FF", boxShadow: "0 0 30px rgba(0, 178, 255, 0.4)" }}
-            className={`group relative bg-black border ${isVoted ? 'border-yellow-500/50' : 'border-white/20'} rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all hover:border-[#00B2FF]/60 hover:shadow-[0_0_50px_rgba(0,0,0,1)] flex flex-col h-full active:border-[#00B2FF]`}
+            className={`group relative bg-black border ${isVoted ? 'border-yellow-500 shadow-[0_0_30px_rgba(234,179,8,0.3)]' : 'border-white/20'} rounded-[2rem] overflow-hidden transition-all hover:border-[#00B2FF]/60 hover:shadow-[0_0_50px_rgba(0,0,0,1)] flex flex-col h-full active:border-[#00B2FF]`}
         >
+            {/* Winner Aura (Only if Voted) */}
+            {isVoted && (
+                <motion.div 
+                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute inset-0 bg-gradient-to-b from-yellow-500/10 to-transparent pointer-events-none z-0"
+                />
+            )}
+
             {/* Status Badges Layer */}
             <div className="absolute top-3 right-3 z-30 flex gap-2">
                 {isVoted && (
                     <motion.div 
                         initial={{ scale: 0, rotate: -20 }}
                         animate={{ scale: 1, rotate: 0 }}
-                        className="bg-yellow-500 rounded-full p-2 shadow-[0_0_20px_rgba(234,179,8,0.6)] border border-yellow-300/50"
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        className="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full p-2 shadow-[0_0_25px_rgba(234,179,8,0.8)] border border-yellow-200/50"
                     >
-                        <Trophy className="w-3 h-3 md:w-4 md:h-4 text-white" />
+                        <Trophy className="w-4 h-4 md:w-5 md:h-5 text-white drop-shadow-lg" />
                     </motion.div>
                 )}
                 {isRated && !isVoted && (
@@ -74,9 +84,9 @@ export function LocaleCard({ locale, onVoteClick, rank, isRated, isVoted }: Loca
             </div>
 
             {/* Content Section (Compact) */}
-            <div className="p-3 md:p-5 flex flex-col flex-grow space-y-3 md:space-y-4">
+            <div className="p-3 md:p-5 flex flex-col flex-grow space-y-3 md:space-y-4 relative z-10">
                 <div className="flex-grow min-h-[2.5rem] md:min-h-[3rem]">
-                    <h3 className="text-xs md:text-lg font-lilita text-white leading-tight uppercase tracking-wide group-hover:text-[#00B2FF] transition-colors line-clamp-2">
+                    <h3 className={`text-xs md:text-lg font-lilita leading-tight uppercase tracking-wide transition-colors line-clamp-2 ${isVoted ? 'text-yellow-500' : 'text-white'} group-hover:text-[#00B2FF]`}>
                         {locale.name}
                     </h3>
                 </div>
@@ -84,19 +94,19 @@ export function LocaleCard({ locale, onVoteClick, rank, isRated, isVoted }: Loca
                 {/* Glass Button (God Tier) */}
                 <button
                     onClick={() => onVoteClick(locale)}
-                    className={`relative w-full h-11 md:h-12 overflow-hidden rounded-xl md:rounded-2xl group/btn transition-all active:scale-95 ${isVoted ? 'ring-2 ring-yellow-500/50 ring-offset-2 ring-offset-black' : ''}`}
+                    className={`relative w-full h-11 md:h-12 overflow-hidden rounded-xl md:rounded-2xl group/btn transition-all active:scale-95 ${isVoted ? 'shadow-[0_0_20px_rgba(234,179,8,0.4)]' : ''}`}
                 >
                     <div className={`absolute inset-0 bg-gradient-to-r ${
                         isVoted 
-                            ? 'from-yellow-600 to-yellow-400' 
+                            ? 'from-yellow-600 via-yellow-400 to-yellow-600' 
                             : isRated 
-                                ? 'from-white/10 to-white/20 border border-white/10' 
+                                ? 'from-white/5 to-white/10 border border-white/10' 
                                 : 'from-[#0066FF] to-[#00B2FF]'
-                    } transition-all group-hover/btn:brightness-110`} />
+                    } bg-[length:200%_auto] ${isVoted ? 'animate-shimmer' : ''} transition-all group-hover/btn:brightness-110`} />
                     
                     <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-[10px] md:text-xs lg:text-sm font-black text-white uppercase tracking-wider">
                         {isVoted ? (
-                            <>MI FAVORITO 👑</>
+                            <>VOTO FINAL 👑</>
                         ) : isRated ? (
                             <>EDITAR NOTA 🍣</>
                         ) : (
