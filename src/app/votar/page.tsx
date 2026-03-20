@@ -65,11 +65,11 @@ export default function VotingPage() {
             {/* Main Content */}
             <div className="relative z-10 flex flex-col min-h-screen pt-12 md:pt-16">
 
-                {/* Header Section: The Crown Aura */}
-                <div className="text-center px-4 mb-10 relative">
+                {/* Header Section: The Crown Aura (Optimized Overflow) */}
+                <div className="text-center px-4 mb-10 relative overflow-visible">
                     
-                    {/* Crown Glow Aura */}
-                    <div className="absolute top-1/2 left-1/2 -track-x-1/2 -track-y-1/2 -translate-x-1/2 -translate-y-[120%] w-[300px] md:w-[600px] h-[300px] md:h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none z-0" />
+                    {/* Crown Glow Aura - Adjusted for Mobile to prevent clipping */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[120%] w-[250px] md:w-[600px] h-[250px] md:h-[400px] bg-primary/20 blur-[80px] md:blur-[120px] rounded-full pointer-events-none z-0" />
 
                     {/* Golden Crown */}
                     <motion.div

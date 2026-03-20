@@ -38,7 +38,7 @@ export function Stars({ value, onChange, label, readOnly }: StarsProps) {
                             onClick={() => !readOnly && onChange(star)}
                             onMouseEnter={() => !readOnly && setHover(star)}
                             onMouseLeave={() => !readOnly && setHover(0)}
-                            className="relative group focus:outline-none touch-none"
+                            className="relative group focus:outline-none touch-none overflow-visible"
                             aria-label={`Calificar con ${star} estrellas`}
                         >
                             {/* Subtle Glow Layer - Reduced for clarity and performance */}
@@ -55,7 +55,7 @@ export function Stars({ value, onChange, label, readOnly }: StarsProps) {
                                             }
                                         }}
                                         exit={{ opacity: 0, scale: 0.8 }}
-                                        className="absolute inset-0 bg-yellow-400/20 blur-lg rounded-full z-0 pointer-events-none"
+                                        className="absolute inset-[-50%] bg-yellow-400/10 blur-xl rounded-full z-0 pointer-events-none"
                                         style={{ willChange: 'transform, opacity' }}
                                     />
                                 )}
