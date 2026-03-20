@@ -30,15 +30,32 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
         setIsRatingModalOpen(true)
     }
 
-    const handleRatingSubmit = async (ratings: { flavor: number, service: number, presentation: number }, wantToVote: boolean) => {
+    const handleRatingSubmit = async (
+        ratings: { flavor: number, service: number, presentation: number }, 
+        wantToVote: boolean,
+        confirmMove: boolean = false
+    ) => {
         if (!selectedLocale || !user) return
         setIsSubmitting(true)
 
         try {
-            const result = await submitRatingAndVote(user.id, selectedLocale.id, ratings, wantToVote)
+            const result = await submitRatingAndVote(user.id, selectedLocale.id, ratings, wantToVote, confirmMove)
 
             if (!result.success) {
-                alert(result.error)
+                if (result.code === 'VOTE_EXISTS') {
+                    const confirm = window.confirm(
+                        `Ya tienes un voto registrado para "${result.currentLocaleName}".\n\n` +
+                        `¿Quieres mover tu voto a "${selectedLocale.name}"?\n` +
+                        `(Tu calificación de estrellas se guardará de todos modos).`
+                    )
+                    if (confirm) {
+                        // Retry with confirmation
+                        await handleRatingSubmit(ratings, wantToVote, true)
+                        return
+                    }
+                } else {
+                    alert(result.error)
+                }
             } else {
                 setVotedLocalInfo({
                     name: selectedLocale.name,
@@ -103,6 +120,7 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
                 isOpen={isRatingModalOpen}
                 onClose={() => setIsRatingModalOpen(false)}
                 onRating={handleRatingSubmit}
+                localeId={selectedLocale?.id || ""}
                 localeName={selectedLocale?.name || ""}
                 isSubmitting={isSubmitting}
             />
