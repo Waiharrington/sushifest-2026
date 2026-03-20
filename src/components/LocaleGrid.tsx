@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { motion, Variants } from "framer-motion"
 import { LocaleCard } from "./LocaleCard"
 import { RatingModal } from "./RatingModal"
@@ -29,6 +29,14 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
     const [votedLocalInfo, setVotedLocalInfo] = useState<{ name: string, image: string } | null>(null)
     const [searchTerm, setSearchTerm] = useState("")
     const [progress, setProgress] = useState({ ratedCount: 0, totalCount: 0 })
+
+    const filteredLocales = useMemo(() => {
+        const term = searchTerm.trim().toLowerCase()
+        if (!term) return locales
+        return locales.filter(locale => 
+            locale.name.toLowerCase().includes(term)
+        )
+    }, [locales, searchTerm])
 
     // Notify parent about modal state
     useEffect(() => {
@@ -113,9 +121,6 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
         show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50 } }
     }
 
-    const filteredLocales = locales.filter(locale => 
-        locale.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
 
     return (
         <div className="space-y-10">
@@ -130,8 +135,20 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                         placeholder="Buscar restaurante..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-black/60 border border-white/20 rounded-full py-5 pl-16 pr-8 outline-none focus:border-[#00B2FF] focus:bg-black/80 text-white placeholder:text-white/20 transition-all backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+                        className="w-full bg-black/60 border border-white/20 rounded-full py-5 pl-16 pr-12 outline-none focus:border-[#00B2FF] focus:bg-black/80 text-white placeholder:text-white/20 transition-all backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
                     />
+                    {searchTerm && (
+                        <button 
+                            onClick={() => setSearchTerm("")}
+                            className="absolute inset-y-0 right-6 flex items-center text-white/40 hover:text-white transition-colors"
+                            aria-label="Limpiar búsqueda"
+                            title="Limpiar búsqueda"
+                        >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 18L6 6l12 12" />
+                            </svg>
+                        </button>
+                    )}
                 </div>
                 <p className="text-center text-white/40 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">
                     Puedes calificar varios, pero <span className="text-[#00B2FF]">votar solo por uno</span>
