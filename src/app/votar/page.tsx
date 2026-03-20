@@ -3,16 +3,16 @@
 import { useEffect, useState } from "react";
 import { LocaleGrid } from "@/components/LocaleGrid";
 import { supabase } from "@/lib/supabase";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Particles } from "@/components/Particles";
-import { SponsorBackground } from "@/components/SponsorBackground";
+import { RiceParticles } from "@/components/RiceParticles";
 
 export default function VotingPage() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [locales, setLocales] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isVoteModalOpen, setIsVoteModalOpen] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -31,101 +31,108 @@ export default function VotingPage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-background text-white relative overflow-x-hidden selection:bg-primary/30">
+        <div className="min-h-screen bg-black text-white relative overflow-x-hidden selection:bg-primary/30">
 
-            {/* Background Layer */}
-            <div className="fixed top-0 left-0 w-full h-[100svh] md:h-screen md:inset-0 z-0">
+            {/* Background Layer: Night Arena (Switching logic) */}
+            <AnimatePresence mode="wait">
+                {!isVoteModalOpen && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-0 overflow-hidden"
+                    >
+                        {/* Night Festival Background */}
+                        <Image
+                            src="/bg-votar-premium.png"
+                            alt="Night Arena Background"
+                            fill
+                            className="object-cover opacity-60 md:opacity-50" // DARKER FOR READABILITY
+                            priority
+                            quality={100}
+                        />
 
+                        {/* Blue Vignette for Mood */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
+                        <div className="absolute inset-0 bg-[#0A021A]/40 mix-blend-multiply" />
 
-                {/* Mobile Background */}
-                <div className="absolute inset-0 z-0 block md:hidden">
-                    <Image
-                        src="/bg-home-mobile.jpg"
-                        alt="Mobile Background"
-                        fill
-                        className="object-cover opacity-50"
-                        priority
-                        quality={100}
-                        unoptimized
-                    />
-                </div>
-
-                {/* Desktop Background */}
-                <div className="absolute inset-0 z-0 hidden md:block">
-                    <Image
-                        src="/bg-home.jpg"
-                        alt="Desktop Background"
-                        fill
-                        className="object-cover opacity-30"
-                        priority
-                        quality={100}
-                        unoptimized
-                    />
-                </div>
-
-                <Particles color="#0537BB" />
-                <SponsorBackground />
-            </div>
+                        {/* Rain Particles */}
+                        <RiceParticles />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Main Content */}
-            <div className="relative z-10 flex flex-col min-h-screen pt-2 md:pt-12 bg-gradient-to-b from-background/40 to-background/80">
+            <div className="relative z-10 flex flex-col min-h-screen pt-12 md:pt-16">
 
-                {/* Header Section */}
-                <div className="text-center px-4 mb-2">
+                {/* Header Section: The Crown Aura */}
+                <div className="text-center px-4 mb-10 relative">
+                    
+                    {/* Crown Glow Aura */}
+                    <div className="absolute top-1/2 left-1/2 -track-x-1/2 -track-y-1/2 -translate-x-1/2 -translate-y-[120%] w-[300px] md:w-[600px] h-[300px] md:h-[400px] bg-primary/20 blur-[120px] rounded-full pointer-events-none z-0" />
 
-                    {/* Integrated Header: Sponsors + Main Logo (Optional, if we want exact mirror, but user just said text/proportions. Let's fix text first) */}
-
-                    {/* Crown */}
+                    {/* Golden Crown */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8, y: -20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.8, type: "spring" }}
-                        className="relative z-20 -mt-6 md:-mt-12 -mb-10 md:-mb-20"
+                        transition={{ duration: 1.2, type: "spring" }}
+                        className="relative z-20 -mb-12 md:-mb-24"
                     >
-                        <Image src="/crown-header.png" alt="Crown" width={500} height={250} className="w-[240px] md:w-[400px] h-auto drop-shadow-lg mx-auto" />
+                        <Image src="/crown-header.png" alt="Crown" width={400} height={200} className="w-[180px] md:w-[320px] h-auto drop-shadow-[0_0_50px_rgba(255,215,0,0.3)] mx-auto animate-float" />
                     </motion.div>
 
-                    {/* Title */}
+                    {/* Title Style: God Tier */}
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.8 }}
-                        className="text-2xl md:text-4xl lg:text-6xl text-white uppercase leading-none tracking-tight mb-6 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-lilita max-w-5xl mx-auto"
+                        transition={{ delay: 0.4, duration: 1 }}
+                        className="text-4xl md:text-6xl lg:text-8xl text-white uppercase leading-[0.9] tracking-tighter mb-6 font-lilita drop-shadow-[0_10px_35px_rgba(0,0,0,1)]"
                     >
-                        ¡VOTA POR TU LOCAL FAVORITO<br />DE SUSHI EN PANAMÁ!
+                        ELIJE EL <br/>
+                        <span className="text-[#00B2FF] drop-shadow-[0_0_15px_rgba(0,178,255,0.5)]">MEJOR SUSHI</span>
                     </motion.h1>
 
                     {/* Subtitle */}
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                        className="text-white/90 text-sm md:text-xl lg:text-2xl max-w-3xl mx-auto font-medium leading-relaxed px-4"
+                        transition={{ delay: 0.8 }}
+                        className="text-white/60 text-xs md:text-lg max-w-xl mx-auto font-black uppercase tracking-[0.3em] px-4"
                     >
-                        Elige cuál es el mejor negocio especialista en sushi del <span className="font-bold underline decoration-primary/50">Sushifest 🏆</span>
+                        Sushifest 🏆 Panamá 2026
                     </motion.p>
                 </div>
 
                 {/* Voting Grid */}
-                <div className="flex-grow px-4 pb-20 mt-6 md:mt-16">
-                    <div className="max-w-5xl mx-auto">
+                <div className="flex-grow px-4 pb-24 mt-4">
+                    <div className="max-w-7xl mx-auto">
                         {loading ? (
-                            <div className="flex flex-col items-center justify-center py-20 text-white">
-                                <div className="animate-spin text-4xl mb-4">🍣</div>
-                                <p>Cargando participantes...</p>
+                            <div className="flex flex-col items-center justify-center py-24 text-white">
+                                <motion.div 
+                                    animate={{ rotate: 360 }} 
+                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                    className="text-5xl mb-6"
+                                >
+                                    🍣
+                                </motion.div>
+                                <p className="font-lilita text-2xl tracking-widest animate-pulse">CARGANDO...</p>
                             </div>
                         ) : error ? (
-                            <div className="p-4 bg-red-900/50 border border-red-500 rounded text-red-200 text-center max-w-md mx-auto">
-                                <p>Error de conexión</p>
+                            <div className="p-8 bg-red-950/40 border border-red-500/30 rounded-[2rem] text-red-100 text-center max-w-md mx-auto backdrop-blur-xl">
+                                <p className="font-bold text-xl mb-2">Error de conexión</p>
+                                <p className="text-sm opacity-60">No pudimos conectar con los gladiadores del sushi.</p>
                             </div>
                         ) : (
-                            <LocaleGrid locales={locales} />
+                            <LocaleGrid 
+                                locales={locales} 
+                                onModalStateChange={setIsVoteModalOpen} 
+                            />
                         )}
                     </div>
                 </div>
 
                 {/* Footer */}
-                <footer className="py-8 text-center text-white/40 text-[10px] z-20 relative uppercase tracking-[0.2em]">
+                <footer className="py-12 text-center text-white/20 text-[10px] z-20 relative uppercase tracking-[0.4em] font-black">
                     <p>© 2026 SUSHIFEST • BY EPIC MARKETING • PANAMÁ</p>
                 </footer>
 

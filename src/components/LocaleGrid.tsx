@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, Variants } from "framer-motion"
 import { LocaleCard } from "./LocaleCard"
 import { RatingModal } from "./RatingModal"
@@ -15,15 +15,21 @@ interface Locale {
 
 interface LocaleGridProps {
     locales: Locale[]
+    onModalStateChange?: (isOpen: boolean) => void
 }
 
-export function LocaleGrid({ locales }: LocaleGridProps) {
+export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
     const { user } = useAuth()
     const [selectedLocale, setSelectedLocale] = useState<Locale | null>(null)
     const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [showSuccessModal, setShowSuccessModal] = useState(false)
     const [votedLocalInfo, setVotedLocalInfo] = useState<{ name: string, image: string } | null>(null)
+
+    // Notify parent about modal state
+    useEffect(() => {
+        onModalStateChange?.(isRatingModalOpen || showSuccessModal)
+    }, [isRatingModalOpen, showSuccessModal, onModalStateChange])
 
     const handleRatingClick = (locale: Locale) => {
         setSelectedLocale(locale)
@@ -103,7 +109,7 @@ export function LocaleGrid({ locales }: LocaleGridProps) {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, margin: "-50px" }}
-                className="grid grid-cols-3 gap-2 md:gap-6 lg:gap-8"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12"
             >
                 {locales.map((locale, index) => (
                     <motion.div key={locale.id} variants={item}>
