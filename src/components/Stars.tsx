@@ -19,8 +19,8 @@ export function Stars({ value, onChange, label, readOnly }: StarsProps) {
             <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] leading-none mb-1">
                 {label} {readOnly && <span className="text-[#00B2FF]/60 ml-2">(YA CALIFICADO)</span>}
             </span>
-            <div className="flex gap-2.5 items-center justify-center">
-                {[1, 2, 3, 4, 5].map((star, index) => {
+            <div className="flex gap-2.5 items-center justify-center overflow-visible py-2">
+                {[1, 2, 3, 4, 5].map((star) => {
                     const isActuallyActive = star <= value;
                     const isHovered = !readOnly && star <= hover;
                     const isActive = isHovered || isActuallyActive;
@@ -29,71 +29,64 @@ export function Stars({ value, onChange, label, readOnly }: StarsProps) {
                         <motion.button
                             key={star}
                             type="button"
-                            // MOBILE-FIRST INTERACTION: Stronger spring on tap
+                            // SNAPPY INTERACTION: Immediate response
                             whileTap={readOnly ? {} : { 
-                                scale: 0.7,
-                                transition: { type: "spring", stiffness: 400, damping: 10 }
+                                scale: 0.8,
+                                transition: { type: "spring", stiffness: 500, damping: 20 }
                             }}
-                            // DESKTOP HOVER: Kept but secondary
-                            whileHover={readOnly ? {} : { scale: 1.15 }}
+                            whileHover={readOnly ? {} : { scale: 1.1 }}
                             onClick={() => !readOnly && onChange(star)}
                             onMouseEnter={() => !readOnly && setHover(star)}
                             onMouseLeave={() => !readOnly && setHover(0)}
                             className="relative group focus:outline-none touch-none"
                             aria-label={`Calificar con ${star} estrellas`}
                         >
-                            {/* Staggered Glow Layer */}
+                            {/* Subtle Glow Layer - Reduced for clarity and performance */}
                             <AnimatePresence>
                                 {isActive && (
                                     <motion.div
-                                        initial={{ opacity: 0, scale: 0, rotate: -45 }}
+                                        initial={{ opacity: 0, scale: 0.8 }}
                                         animate={{ 
-                                            opacity: 0.5, 
-                                            scale: 1.6, 
-                                            rotate: 0,
+                                            opacity: 0.25, 
+                                            scale: 1.25, 
                                             transition: { 
-                                                delay: isHovered ? 0 : index * 0.04,
-                                                type: "spring",
-                                                stiffness: 200
+                                                duration: 0.2,
+                                                ease: "easeOut"
                                             }
                                         }}
-                                        exit={{ opacity: 0, scale: 0 }}
-                                        className="absolute inset-0 bg-yellow-400/30 blur-xl rounded-full z-0"
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        className="absolute inset-0 bg-yellow-400/20 blur-lg rounded-full z-0 pointer-events-none"
+                                        style={{ willChange: 'transform, opacity' }}
                                     />
                                 )}
                             </AnimatePresence>
 
-                            {/* Main Star Icon with Animation */}
+                            {/* Main Star Icon - Snappy and clean */}
                             <motion.div
-                                animate={isActive ? { 
-                                    scale: [1, 1.2, 1],
-                                    rotate: [0, 10, 0]
-                                } : { scale: 1, rotate: 0 }}
-                                transition={{ 
-                                    delay: isHovered ? 0 : index * 0.04,
-                                    duration: 0.3 
-                                }}
+                                animate={isActive ? { scale: 1.1 } : { scale: 1 }}
+                                transition={{ duration: 0.15 }}
+                                style={{ willChange: 'transform' }}
                             >
                                 <Star
-                                    size={42}
+                                    size={40}
                                     strokeWidth={isActive ? 1.5 : 2}
                                     className={`relative z-10 transition-colors duration-200 ${
                                         isActive
-                                            ? "fill-[#FFD700] text-[#FFD700] drop-shadow-[0_0_12px_rgba(255,215,0,0.5)]"
+                                            ? "fill-[#FFD700] text-[#FFD700] drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]"
                                             : "fill-transparent text-white/10"
                                     }`}
                                 />
                             </motion.div>
                             
-                            {/* Premium Shine Reflection */}
+                            {/* Micro Shine Reflection - Sharper */}
                             {isActive && (
                                 <motion.div 
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: -6 }}
-                                    transition={{ delay: (index * 0.04) + 0.1 }}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.2 }}
                                     className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none"
                                 >
-                                    <div className="w-2 h-2 bg-white rounded-full blur-[2px] opacity-70 -translate-y-2" />
+                                    <div className="w-1.5 h-1.5 bg-white rounded-full blur-[1px] opacity-60 -translate-x-1.5 -translate-y-2" />
                                 </motion.div>
                             )}
                         </motion.button>
