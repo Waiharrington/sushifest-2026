@@ -37,6 +37,8 @@ A "surprise" reward system to drive engagement.
 ### [Component 3] Project Setup (Mirroring Salchipapa)
 - Create a new directory `sushifest` mirroring the `salchipapa-fest` structure. [DONE]
 - Initialize a new Supabase project or new tables in the existing one. [DONE]
+- Configure Supabase Storage `locales` bucket (Public) and authorize domain in `next.config.ts`. [DONE]
+- Refactor admin actions to use `service_role` to bypass RLS for administrative tasks. [DONE]
 
 ## Verification Plan
 
