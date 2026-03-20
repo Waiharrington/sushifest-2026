@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
 import { RiceParticles } from "./RiceParticles";
@@ -45,148 +45,119 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
     };
 
     return (
-        <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center p-6 overflow-hidden select-none"
-        >
-            {/* Backdrop Catch (Fixed & Instant) */}
-            <div 
-                onClick={onClose}
-                className="absolute inset-0 z-0 cursor-pointer pointer-events-auto"
+        <AnimatePresence>
+            <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[200] flex items-center justify-center p-6 overflow-hidden select-none"
             >
-                <Image 
-                    src="/modal-bg.png" 
-                    alt="Fondo Estampado" 
-                    fill 
-                    className="object-cover opacity-100" // SHARP PATTERN
-                    priority 
-                />
-                <div className="absolute inset-0 bg-black/10" /> {/* LIGHTER VIGNETTE FOR 100% VISIBILITY */}
-                <RiceParticles />
-            </div>
-
-            {/* Modal Card */}
-            <motion.div
-                initial={{ scale: 0.95, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                transition={{ 
-                    type: "spring", 
-                    damping: 25, 
-                    stiffness: 400 
-                }}
-                className="relative w-full max-w-sm rounded-[2.5rem] p-8 shadow-[0_25px_90px_rgba(0,0,0,1)] overflow-visible pointer-events-auto will-change-transform"
-                style={{ willChange: 'transform, opacity' } as React.CSSProperties}
-            >
-                {/* Close Button */}
-                <button
+                {/* Backdrop */}
+                <div 
                     onClick={onClose}
-                    aria-label="Cerrar modal"
-                    className="absolute top-6 right-8 z-[210] w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all active:scale-90"
+                    className="absolute inset-0 z-0 cursor-pointer bg-black/40 backdrop-blur-md"
                 >
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                    <RiceParticles />
+                </div>
 
-                {/* Background Glass Layer (SOLIDIFIED FOR READABILITY) */}
-                <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-3xl">
-                    <div className="absolute inset-0 scale-110 blur-xl opacity-60"> {/* BLURRED PATTERN INSIDE */}
-                        <Image src="/modal-bg.png" alt="F" fill className="object-cover" />
-                    </div>
-                    <div className="absolute inset-0 bg-black/20" /> {/* DARK OVERLAY TO PROTECT TEXT */}
+                {/* Modal Card */}
+                <motion.div
+                    initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                    animate={{ scale: 1, opacity: 1, y: 0 }}
+                    exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                    transition={{ type: "spring", damping: 25, stiffness: 400 }}
+                    className="relative w-full max-w-sm rounded-[3rem] p-8 shadow-[0_0_80px_rgba(0,178,255,0.15)] overflow-hidden pointer-events-auto border border-white/20 bg-[#0A021A]/60 backdrop-blur-3xl"
+                >
+                    {/* Pattern Background Layer */}
+                    <div className="absolute inset-0 bg-[url('/bg-modal.png')] bg-repeat opacity-[0.07] bg-[length:150px] pointer-events-none" />
+
+                    {/* Background Shine */}
                     <motion.div 
                         animate={{ x: ['-200%', '300%'] }}
                         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg]"
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] pointer-events-none"
                     />
-                </div>
 
-                {/* Character (Lowered and optimized) */}
-                <div className="absolute -top-2 left-1/2 -track-x-1/2 w-32 h-auto z-50 pointer-events-none translate-x-[-50%]">
-                    <Image src="/sushi-character.png" alt="Character" width={128} height={100} className="w-full h-auto drop-shadow-2xl" priority />
-                </div>
+                    {/* Close Button */}
+                    <button
+                        onClick={onClose}
+                        className="absolute top-6 right-8 text-white/30 hover:text-white transition-colors p-2 z-20"
+                    >
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
 
-                {/* Content */}
-                <div className="relative z-10 pt-16">
-                    <h2 className="text-4xl font-lilita text-white text-center mb-1 tracking-tight uppercase">
-                        {isRegistering ? "¡REGÍSTRATE!" : "¡BIENVENIDO!"}
-                    </h2>
-                    <p className="text-[#00B2FF] font-black text-center mb-8 text-[11px] uppercase tracking-[0.25em] drop-shadow-[0_0_8px_rgba(0,178,255,0.4)]">
-                        {isRegistering ? "Elige el mejor sushi de Panamá" : "Ingresa para votar por tu favorito"}
-                    </p>
-
-                    {/* DEMO BUTTON (Testing only) */}
-                    <div className="flex justify-center mb-6">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setCedula("8-888-888");
-                                setName("Demo User");
-                                setPhone("6666-6666");
-                            }}
-                            className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[9px] text-white/40 hover:text-white hover:bg-white/10 transition-all uppercase font-bold tracking-widest flex items-center gap-2"
-                        >
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#00B2FF] animate-pulse" />
-                            RELLENAR DATOS DEMO
-                        </button>
+                    {/* Character */}
+                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-32 h-auto z-10 pointer-events-none text-center">
+                        <Image src="/sushi-character.png" alt="Character" width={128} height={100} className="mx-auto h-auto drop-shadow-2xl" priority />
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        {isRegistering && (
+                    {/* Content */}
+                    <div className="relative z-10 pt-16">
+                        <h2 className="text-4xl font-lilita text-white text-center mb-1 tracking-tight uppercase">
+                            {isRegistering ? "¡REGÍSTRATE!" : "¡BIENVENIDO!"}
+                        </h2>
+                        <p className="text-[#00B2FF] font-black text-center mb-8 text-[11px] uppercase tracking-[0.25em] drop-shadow-[0_0_8px_rgba(0,178,255,0.4)]">
+                            {isRegistering ? "Elige el mejor sushi de Panamá" : "Ingresa para votar por tu favorito"}
+                        </p>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            {isRegistering && (
+                                <div className="space-y-1 px-1">
+                                    <label className="text-[10px] text-white/40 font-bold ml-4 uppercase tracking-widest">Nombre Completo</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Ej: Juan Pérez"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-base"
+                                    />
+                                </div>
+                            )}
                             <div className="space-y-1 px-1">
-                                <label className="text-[10px] text-white/40 font-bold ml-4 uppercase tracking-widest">Nombre Completo</label>
+                                <label className="text-[10px] text-white/40 font-bold ml-4 uppercase tracking-widest">Cédula</label>
                                 <input
                                     type="text"
-                                    placeholder="Ej: Juan Pérez"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Ej: 8-888-888"
+                                    value={cedula}
+                                    onChange={(e) => setCedula(e.target.value)}
                                     className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-base"
                                 />
                             </div>
-                        )}
-                        <div className="space-y-1 px-1">
-                            <label className="text-[10px] text-white/40 font-bold ml-4 uppercase tracking-widest">Cédula</label>
-                            <input
-                                type="text"
-                                placeholder="Ej: 8-888-888"
-                                value={cedula}
-                                onChange={(e) => setCedula(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-base"
-                            />
-                        </div>
-                        {isRegistering && (
-                            <div className="space-y-1 px-1">
-                                <label className="text-[10px] text-white/40 font-bold ml-4 uppercase tracking-widest">Teléfono</label>
-                                <input
-                                    type="tel"
-                                    placeholder="Ej: 6666-6666"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-base"
-                                />
-                            </div>
-                        )}
-                        {error && <p className="text-red-400 text-[11px] text-center font-bold uppercase">{error}</p>}
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full h-15 rounded-2xl mt-4 bg-gradient-to-r from-[#0066FF] to-[#00B2FF] text-white font-black text-lg uppercase tracking-wider"
-                        >
-                            {loading ? "..." : (isRegistering ? "REGISTRARME" : "INGRESAR")}
-                        </button>
-                    </form>
+                            {isRegistering && (
+                                <div className="space-y-1 px-1">
+                                    <label className="text-[10px] text-white/40 font-bold ml-4 uppercase tracking-widest">Teléfono</label>
+                                    <input
+                                        type="tel"
+                                        placeholder="Ej: 6666-6666"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-base"
+                                    />
+                                </div>
+                            )}
+                            {error && <p className="text-red-400 text-[11px] text-center font-bold uppercase">{error}</p>}
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full h-15 rounded-2xl mt-4 bg-gradient-to-r from-[#0066FF] to-[#00B2FF] text-white font-black text-lg uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(0,102,255,0.3)]"
+                            >
+                                {loading ? "..." : (isRegistering ? "REGISTRARME" : "INGRESAR")}
+                            </button>
+                        </form>
 
-                    <div className="mt-6 text-center">
-                        <button
-                            onClick={() => setIsRegistering(!isRegistering)}
-                            className="text-[10px] text-white/30 hover:text-white uppercase tracking-widest font-bold transition-all"
-                        >
-                            {isRegistering ? "¿YA TIENES CUENTA? INGRESA" : "¿ERES NUEVO? REGÍSTRATE"}
-                        </button>
+                        <div className="mt-6 text-center">
+                            <button
+                                onClick={() => setIsRegistering(!isRegistering)}
+                                className="text-[10px] text-white/30 hover:text-white uppercase tracking-widest font-bold transition-all"
+                            >
+                                {isRegistering ? "¿YA TIENES CUENTA? INGRESA" : "¿ERES NUEVO? REGÍSTRATE"}
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </motion.div>
             </motion.div>
-        </motion.div>
+        </AnimatePresence>
     );
 }

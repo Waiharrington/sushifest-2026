@@ -173,14 +173,9 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                             </button>
                         )}
                     </div>
-                    <div className="flex flex-col items-center gap-1">
-                        <p className="text-[#00B2FF] font-black text-[10px] md:text-sm uppercase tracking-[0.2em]">
-                            Puedes calificar todos
-                        </p>
-                        <p className="text-white font-black text-[10px] md:text-sm uppercase tracking-[0.2em]">
-                            pero votar solo por uno
-                        </p>
-                    </div>
+                    <p className="text-center text-[#00B2FF] font-black text-[9px] md:text-sm uppercase tracking-[0.15em] whitespace-nowrap">
+                        Puedes calificar todos, pero votar solo por uno
+                    </p>
                 </div>
                 
                 {/* Reset Button for Testing */}
