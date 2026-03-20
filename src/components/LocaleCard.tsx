@@ -94,13 +94,19 @@ export function LocaleCard({ locale, onVoteClick, rank, isRated, isVoted }: Loca
                 {/* Glass Button (God Tier) */}
                 <button
                     onClick={() => onVoteClick(locale)}
-                    className={`relative w-full h-11 md:h-12 overflow-hidden rounded-xl md:rounded-2xl group/btn transition-all active:scale-95 ${isVoted ? 'shadow-[0_0_20px_rgba(234,179,8,0.4)]' : ''}`}
+                    className={`relative w-full h-11 md:h-12 overflow-hidden rounded-xl md:rounded-2xl group/btn transition-all active:scale-95 ${
+                        isVoted 
+                            ? 'shadow-[0_0_20px_rgba(234,179,8,0.4)] border border-yellow-500/50' 
+                            : isRated 
+                                ? 'bg-white/5 border border-white/20' 
+                                : 'border-none'
+                    }`}
                 >
                     <div className={`absolute inset-0 bg-gradient-to-r ${
                         isVoted 
                             ? 'from-yellow-600 via-yellow-400 to-yellow-600' 
                             : isRated 
-                                ? 'from-white/5 to-white/10 border border-white/10' 
+                                ? 'from-white/10 to-white/20' 
                                 : 'from-[#0066FF] to-[#00B2FF]'
                     } bg-[length:200%_auto] ${isVoted ? 'animate-shimmer' : ''} transition-all group-hover/btn:brightness-110`} />
                     
