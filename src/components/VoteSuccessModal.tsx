@@ -18,22 +18,41 @@ export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: V
     return (
         <AnimatePresence>
             <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-                {/* Backdrop */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                {/* Backdrop Catch */}
+                <div 
                     onClick={onClose}
-                    className="absolute inset-0 bg-black/98 backdrop-blur-md"
-                />
+                    className="absolute inset-0 z-0 cursor-pointer pointer-events-auto"
+                >
+                    <Image 
+                        src="/modal-bg.png" 
+                        alt="Fondo Estampado" 
+                        fill 
+                        className="object-cover opacity-100"
+                        priority 
+                    />
+                    <div className="absolute inset-0 bg-black/10" />
+                    <RiceParticles />
+                </div>
 
                 <motion.div
                     initial={{ scale: 0.8, opacity: 0, y: 50 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.8, opacity: 0, y: 50 }}
                     transition={{ type: "spring", damping: 25, stiffness: 400 }}
-                    className="relative w-full max-w-md bg-[#0A021A]/80 border border-white/10 rounded-[3rem] shadow-[0_25px_100px_rgba(0,0,0,1)] p-8 pt-12 overflow-hidden backdrop-blur-3xl text-center"
+                    className="relative w-full max-w-md rounded-[3rem] p-8 pt-12 shadow-[0_25px_100px_rgba(0,0,0,1)] overflow-hidden pointer-events-auto text-center"
                 >
+                    {/* Background Glass Layer (SOLIDIFIED FOR CONSISTENCY) */}
+                    <div className="absolute inset-0 rounded-[3rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-3xl">
+                        <div className="absolute inset-0 scale-110 blur-xl opacity-60"> {/* BLURRED PATTERN INSIDE */}
+                            <Image src="/modal-bg.png" alt="F" fill className="object-cover" />
+                        </div>
+                        <div className="absolute inset-0 bg-black/20" /> {/* DARK OVERLAY */}
+                        <motion.div 
+                            animate={{ x: ['-200%', '300%'] }}
+                            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg]"
+                        />
+                    </div>
                     {/* Confetti Effect (Internal Rice Rain) */}
                     <div className="absolute inset-0 pointer-events-none opacity-40">
                         <RiceParticles />
@@ -83,12 +102,6 @@ export function VoteSuccessModal({ isOpen, onClose, localeName, localeImage }: V
                         </button>
                     </div>
 
-                    {/* Shine Effect */}
-                    <motion.div 
-                        animate={{ x: ['-200%', '300%'] }}
-                        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-25deg] pointer-events-none"
-                    />
                 </motion.div>
             </div>
         </AnimatePresence>

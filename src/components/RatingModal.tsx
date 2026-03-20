@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { Stars } from "./Stars"
+import { RiceParticles } from "./RiceParticles"
 import { getUserLocaleStatus } from "@/actions/user_status"
 import { useAuth } from "@/context/AuthContext"
 
@@ -74,28 +75,41 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
         <AnimatePresence>
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                    <div 
                         onClick={onClose}
-                        className="absolute inset-0 bg-black/98 backdrop-blur-md"
-                    />
+                        className="absolute inset-0 z-0 cursor-pointer pointer-events-auto"
+                    >
+                        <Image 
+                            src="/modal-bg.png" 
+                            alt="Fondo Estampado" 
+                            fill 
+                            className="object-cover opacity-100"
+                            priority 
+                        />
+                        <div className="absolute inset-0 bg-black/10" />
+                        <RiceParticles />
+                    </div>
 
                     <motion.div
                         initial={{ scale: 0.9, opacity: 0, y: 40 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 40 }}
                         transition={{ type: "spring", damping: 25, stiffness: 400 }}
+                        className="relative w-full max-w-md rounded-[3rem] p-8 pt-16 shadow-[0_25px_100px_rgba(0,0,0,1)] overflow-visible pointer-events-auto will-change-transform"
                         style={{ willChange: 'transform, opacity' } as React.CSSProperties}
-                        className="relative w-full max-w-md bg-[#0A021A]/80 border border-white/10 rounded-[3rem] shadow-[0_25px_100px_rgba(0,0,0,1)] p-8 pt-16 overflow-visible backdrop-blur-3xl"
                     >
-                        {/* Background Shine */}
-                        <motion.div 
-                            animate={{ x: ['-200%', '300%'] }}
-                            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-25deg] pointer-events-none rounded-[3rem]"
-                        />
+                        {/* Background Glass Layer (SOLIDIFIED FOR CONSISTENCY) */}
+                        <div className="absolute inset-0 rounded-[3rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-3xl">
+                            <div className="absolute inset-0 scale-110 blur-xl opacity-60"> {/* BLURRED PATTERN INSIDE */}
+                                <Image src="/modal-bg.png" alt="F" fill className="object-cover" />
+                            </div>
+                            <div className="absolute inset-0 bg-black/20" /> {/* DARK OVERLAY */}
+                            <motion.div 
+                                animate={{ x: ['-200%', '300%'] }}
+                                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
+                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg]"
+                            />
+                        </div>
 
                         {/* Floating Crown (Premium) */}
                         <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-20 w-32 md:w-36 drop-shadow-[0_0_30px_rgba(255,215,0,0.4)]">
@@ -111,7 +125,8 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                         {/* Close Button */}
                         <button
                             onClick={onClose}
-                            className="absolute top-6 right-8 text-white/30 hover:text-white transition-colors p-2"
+                            aria-label="Cerrar modal"
+                            className="absolute top-6 right-8 text-white/30 hover:text-white transition-colors p-2 z-[60]"
                         >
                             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />

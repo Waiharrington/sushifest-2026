@@ -4,6 +4,7 @@ import { useState, useRef } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Link as LinkIcon, Share2, Instagram } from "lucide-react"
+import { RiceParticles } from "./RiceParticles"
 import html2canvas from "html2canvas"
 
 interface ShareModalProps {
@@ -80,7 +81,22 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
 
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-300">
+            <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 overflow-hidden">
+                {/* Backdrop Catch */}
+                <div 
+                    onClick={onClose}
+                    className="absolute inset-0 z-0 cursor-pointer pointer-events-auto"
+                >
+                    <Image 
+                        src="/modal-bg.png" 
+                        alt="Fondo Estampado" 
+                        fill 
+                        className="object-cover opacity-100"
+                        priority 
+                    />
+                    <div className="absolute inset-0 bg-black/10" />
+                    <RiceParticles />
+                </div>
 
                 {/* Main Container */}
                 <motion.div

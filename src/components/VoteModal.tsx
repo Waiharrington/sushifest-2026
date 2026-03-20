@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { RiceParticles } from "./RiceParticles"
 import Image from "next/image"
 import * as React from "react"
 
@@ -27,8 +28,32 @@ export function VoteModal({ isOpen, onClose, onVote, localeName, isSubmitting }:
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 animate-in fade-in duration-300">
-            <div className="w-full max-w-md bg-background border border-primary/50 rounded-2xl shadow-[0_0_80px_rgba(0,102,255,0.1)] p-8 relative zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden">
+            {/* Backdrop Catch */}
+            <div 
+                onClick={onClose}
+                className="absolute inset-0 z-0 cursor-pointer pointer-events-auto"
+            >
+                <Image 
+                    src="/modal-bg.png" 
+                    alt="Fondo Estampado" 
+                    fill 
+                    className="object-cover opacity-100"
+                    priority 
+                />
+                <div className="absolute inset-0 bg-black/10" />
+                <RiceParticles />
+            </div>
+
+            <div className="relative w-full max-w-md rounded-2xl shadow-[0_0_80px_rgba(0,102,255,0.1)] p-8 overflow-hidden zoom-in-95 duration-300 pointer-events-auto">
+                {/* Background Glass Layer (SOLIDIFIED FOR CONSISTENCY) */}
+                <div className="absolute inset-0 rounded-2xl overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-3xl">
+                    <div className="absolute inset-0 scale-110 blur-xl opacity-60"> {/* BLURRED PATTERN INSIDE */}
+                        <Image src="/modal-bg.png" alt="F" fill className="object-cover" />
+                    </div>
+                    <div className="absolute inset-0 bg-black/20" /> {/* DARK OVERLAY */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] animate-shine" />
+                </div>
 
                 {/* Top Glow Line */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_10px_rgba(0,102,255,0.8)]" />
@@ -52,7 +77,8 @@ export function VoteModal({ isOpen, onClose, onVote, localeName, isSubmitting }:
 
                 <button
                     onClick={onClose}
-                    className="absolute right-4 top-4 text-white/30 hover:text-white transition-colors z-10"
+                    aria-label="Cerrar modal"
+                    className="absolute right-4 top-4 text-white/30 hover:text-white transition-colors z-[60] p-2"
                 >
                     ✕
                 </button>
