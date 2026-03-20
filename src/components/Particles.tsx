@@ -18,9 +18,10 @@ export const Particles = ({ color = "#f97316" }: { color?: string }) => {
         // Wrap in a non-sync block if needed, but in React 18/19 
         // this is usually fine unless it's a loop. 
         // However, one way to avoid the 'synchronous' warning is to use functional update or a slight delay.
-        requestAnimationFrame(() => {
+        const timer = setTimeout(() => {
             setParticles(newParticles)
-        })
+        }, 0);
+        return () => clearTimeout(timer);
     }, [])
 
     return (

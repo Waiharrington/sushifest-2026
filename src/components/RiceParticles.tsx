@@ -66,7 +66,10 @@ export function RiceParticles() {
         randomDelay: -duration * Math.random(), // CALCULATED HERE
       };
     });
-    setGrains(newGrains);
+    // Use setTimeout to avoid cascading render warning in Next.js 15 build
+    setTimeout(() => {
+        setGrains(newGrains);
+    }, 0);
   }, []);
 
   if (grains.length === 0) return null;
