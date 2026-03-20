@@ -60,10 +60,12 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
 
     if (!isOpen) return null
 
+    const isFormValid = flavor > 0 && service > 0 && presentation > 0
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         
-        if (flavor === 0 || service === 0 || presentation === 0) {
+        if (!isFormValid) {
             alert("Por favor califica las 3 categorías")
             return
         }
@@ -153,9 +155,11 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
-                                <div className="space-y-6">
+                                <div className="space-y-2">
                                     <Stars label="Sabor" value={flavor} onChange={setFlavor} readOnly={hasRating} />
+                                    <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                                     <Stars label="Atención" value={service} onChange={setService} readOnly={hasRating} />
+                                    <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                                     <Stars label="Presentación" value={presentation} onChange={setPresentation} readOnly={hasRating} />
                                 </div>
 
@@ -185,13 +189,28 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                                 </div>
 
                                 <div className="flex flex-col gap-4">
-                                    <button
+                                    <motion.button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="w-full h-16 rounded-2xl bg-gradient-to-r from-[#0066FF] to-[#00B2FF] text-white font-lilita text-2xl uppercase tracking-wider transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shadow-[0_0_30px_rgba(0,102,255,0.3)]"
+                                        animate={isFormValid && !isSubmitting ? { 
+                                            boxShadow: [
+                                                "0 0 20px rgba(0,102,255,0.2)",
+                                                "0 0 40px rgba(0,178,255,0.4)",
+                                                "0 0 20px rgba(0,102,255,0.2)"
+                                            ]
+                                        } : {}}
+                                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                        className={`w-full h-16 rounded-2xl bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF] bg-[length:200%_auto] hover:bg-right transition-all duration-500 text-white font-lilita text-2xl uppercase tracking-wider hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:grayscale shadow-lg`}
                                     >
-                                        {isSubmitting ? "GUARDANDO..." : "ENVIAR VOTO 🍣"}
-                                    </button>
+                                        <div className="flex items-center justify-center gap-3">
+                                            {isSubmitting ? "GUARDANDO..." : (
+                                                <>
+                                                    <span>ENVIAR VOTO</span>
+                                                    <span className="text-xl">🍣</span>
+                                                </>
+                                            )}
+                                        </div>
+                                    </motion.button>
                                 </div>
                             </form>
                         )}

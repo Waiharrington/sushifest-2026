@@ -108,6 +108,7 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
                     {/* Close Button */}
                     <button
                         onClick={onClose}
+                        aria-label="Cerrar modal"
                         className="absolute -top-3 -right-3 bg-slate-800 text-white p-2 rounded-full hover:bg-slate-700 transition-colors z-50 border border-slate-600 shadow-lg"
                     >
                         <X className="w-5 h-5" />
@@ -156,7 +157,10 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
                             </div>
 
                             {/* Badge */}
-                            <div className="relative z-10 bg-gradient-to-r from-primary to-blue-700 text-white font-black text-xs uppercase px-4 py-1.5 rounded-full shadow-lg shadow-primary/40">
+                            <div 
+                                aria-label="Estado de votación: Abierta"
+                                className="relative z-10 bg-gradient-to-r from-primary to-blue-700 text-white font-black text-xs uppercase px-4 py-1.5 rounded-full shadow-lg shadow-primary/40"
+                            >
                                 ✅ Votación Abierta
                             </div>
 
