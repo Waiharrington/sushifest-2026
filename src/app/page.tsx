@@ -33,17 +33,21 @@ export default function Home() {
 
   return (
     <>
-      <MobileHome 
-        handleStartVoting={handleStartVoting} 
-        user={user} 
-        logout={logout}
-      />
-      <DesktopHome 
-        handleStartVoting={handleStartVoting} 
-        user={user} 
-        router={router} 
-        logout={logout}
-      />
+      {!isAuthModalOpen && (
+        <MobileHome 
+          handleStartVoting={handleStartVoting} 
+          user={user} 
+          logout={logout}
+        />
+      )}
+      {!isAuthModalOpen && (
+        <DesktopHome 
+          handleStartVoting={handleStartVoting} 
+          user={user} 
+          router={router} 
+          logout={logout}
+        />
+      )}
       {isAuthModalOpen && (
         <AuthModal 
           key="global-auth-modal"

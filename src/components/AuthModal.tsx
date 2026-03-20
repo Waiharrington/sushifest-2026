@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
+import { RiceParticles } from "./RiceParticles";
 import { useAuth } from "@/context/AuthContext";
 
 interface AuthModalProps {
@@ -62,6 +63,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                     priority 
                 />
                 <div className="absolute inset-0 bg-black/10" /> {/* LIGHTER VIGNETTE FOR 100% VISIBILITY */}
+                <RiceParticles />
             </div>
 
             {/* Modal Card */}
@@ -100,8 +102,8 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                     />
                 </div>
 
-                {/* Character */}
-                <div className="absolute -top-10 left-1/2 -track-x-1/2 w-32 h-auto z-50 pointer-events-none translate-x-[-50%]">
+                {/* Character (Lowered and optimized) */}
+                <div className="absolute -top-2 left-1/2 -track-x-1/2 w-32 h-auto z-50 pointer-events-none translate-x-[-50%]">
                     <Image src="/sushi-character.png" alt="Character" width={128} height={100} className="w-full h-auto drop-shadow-2xl" priority />
                 </div>
 
