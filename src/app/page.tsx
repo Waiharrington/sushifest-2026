@@ -12,7 +12,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 export default function Home() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -36,11 +36,13 @@ export default function Home() {
       <MobileHome 
         handleStartVoting={handleStartVoting} 
         user={user} 
+        logout={logout}
       />
       <DesktopHome 
         handleStartVoting={handleStartVoting} 
         user={user} 
         router={router} 
+        logout={logout}
       />
       {isAuthModalOpen && (
         <AuthModal 
@@ -60,9 +62,21 @@ interface HomeProps {
 }
 
 
-function MobileHome({ handleStartVoting, user }: Omit<HomeProps, "router">) {
+function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router"> & { logout: () => void }) {
   return (
     <div className="block md:hidden h-[100svh] relative overflow-hidden bg-[#0A021A]">
+      {/* Log Out Button (Mobile - Top) */}
+      {user && (
+        <motion.button
+          onClick={logout}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="absolute top-6 right-6 z-50 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/40 text-[10px] uppercase font-bold tracking-widest backdrop-blur-md active:scale-95 transition-all"
+        >
+          Cerrar Sesión
+        </motion.button>
+      )}
+
       {/* Cinematic Vignette Overlay (Sponsor Level Focus) */}
       <div className="absolute inset-0 z-30 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.5)_100%)]" />
 
@@ -203,9 +217,23 @@ function MobileHome({ handleStartVoting, user }: Omit<HomeProps, "router">) {
   );
 }
 
-function DesktopHome({ handleStartVoting, user, router }: HomeProps) {
+function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { logout: () => void }) {
   return (
     <div className="hidden md:block h-screen bg-[#0A021A] text-white relative overflow-hidden selection:bg-[#00B2FF]/30">
+      {/* Log Out Button (Desktop - Top) */}
+      {user && (
+        <motion.button
+          onClick={logout}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          whileHover={{ color: "#ffffff", backgroundColor: "rgba(255,255,255,0.1)" }}
+          className="absolute top-10 right-10 z-50 px-6 py-2 rounded-full bg-white/5 border border-white/5 text-white/40 text-xs uppercase font-bold tracking-[0.2em] backdrop-blur-md transition-all flex items-center gap-2"
+        >
+          <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+          Cerrar Sesión
+        </motion.button>
+      )}
+
       {/* Cinematic Vignette Overlay (Sponsor Level Focus) */}
       <div className="absolute inset-0 z-30 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
 
