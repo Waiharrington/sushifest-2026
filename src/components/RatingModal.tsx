@@ -136,7 +136,9 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                         </button>
 
                         <div className="text-center mb-8 relative z-10">
-                            <h2 className="text-4xl font-lilita text-white mb-2 leading-none uppercase tracking-tight">VOTACIÓN</h2>
+                            <h2 className="text-4xl font-lilita text-white mb-2 leading-none uppercase tracking-tight">
+                                {wantToVote ? "TU FAVORITO" : "CALIFICACIÓN"}
+                            </h2>
                             <p className="text-[#00B2FF] font-black text-[11px] uppercase tracking-[0.25em] drop-shadow-[0_0_8px_rgba(0,178,255,0.4)]">
                                 {localeName}
                             </p>
@@ -163,7 +165,13 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                                     <Stars label="Presentación" value={presentation} onChange={setPresentation} readOnly={hasRating} />
                                 </div>
 
-                                <div className="bg-white/5 p-5 rounded-[1.8rem] border border-white/10 space-y-3">
+                                <motion.div 
+                                    animate={wantToVote ? { 
+                                        backgroundColor: "rgba(0, 178, 255, 0.15)",
+                                        borderColor: "rgba(0, 178, 255, 0.4)"
+                                    } : {}}
+                                    className="bg-white/5 p-5 rounded-[1.8rem] border border-white/10 space-y-3 transition-colors duration-500"
+                                >
                                     <div className="flex items-center gap-4">
                                         <div className="relative flex items-center">
                                             <input
@@ -186,27 +194,35 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                                             ? "¡Este restaurante es tu candidato al trono! 🍣👑" 
                                             : "Marca esta casilla si quieres darle tu voto ganador del festival."}
                                     </p>
-                                </div>
+                                </motion.div>
 
                                 <div className="flex flex-col gap-4">
                                     <motion.button
                                         type="submit"
                                         disabled={isSubmitting}
                                         animate={isFormValid && !isSubmitting ? { 
-                                            boxShadow: [
-                                                "0 0 20px rgba(0,102,255,0.2)",
-                                                "0 0 40px rgba(0,178,255,0.4)",
-                                                "0 0 20px rgba(0,102,255,0.2)"
+                                            boxShadow: wantToVote ? [
+                                                "0 0 20px rgba(0,102,255,0.4)",
+                                                "0 0 40px rgba(0,178,255,0.8)",
+                                                "0 0 20px rgba(0,102,255,0.4)"
+                                            ] : [
+                                                "0 0 10px rgba(255,255,255,0.05)",
+                                                "0 0 20px rgba(255,255,255,0.1)",
+                                                "0 0 10px rgba(255,255,255,0.05)"
                                             ]
                                         } : {}}
                                         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                        className={`w-full h-16 rounded-2xl bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF] bg-[length:200%_auto] hover:bg-right transition-all duration-500 text-white font-lilita text-2xl uppercase tracking-wider hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:grayscale shadow-lg`}
+                                        className={`w-full h-16 rounded-2xl ${
+                                            wantToVote 
+                                                ? "bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF]" 
+                                                : "bg-white/10 hover:bg-white/20 border border-white/5"
+                                        } bg-[length:200%_auto] hover:bg-right transition-all duration-500 text-white font-lilita text-2xl uppercase tracking-wider hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:grayscale shadow-lg`}
                                     >
                                         <div className="flex items-center justify-center gap-3">
                                             {isSubmitting ? "GUARDANDO..." : (
                                                 <>
-                                                    <span>ENVIAR VOTO</span>
-                                                    <span className="text-xl">🍣</span>
+                                                    <span>{wantToVote ? "ENVIAR VOTO" : "ENVIAR CALIFICACIÓN"}</span>
+                                                    <span className="text-xl">{wantToVote ? "🍣" : "✨"}</span>
                                                 </>
                                             )}
                                         </div>

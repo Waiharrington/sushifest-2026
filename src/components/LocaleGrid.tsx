@@ -3,6 +3,7 @@ import { motion, Variants } from "framer-motion"
 import { LocaleCard } from "./LocaleCard"
 import { RatingModal } from "./RatingModal"
 import { VoteSuccessModal } from "./VoteSuccessModal"
+import { MoveVoteModal } from "./MoveVoteModal"
 import { submitRatingAndVote } from "@/actions/rating"
 import { useAuth } from "@/context/AuthContext"
 import { getUserProgress } from "@/actions/user_progress"
@@ -26,8 +27,17 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
     const [selectedLocale, setSelectedLocale] = useState<Locale | null>(null)
     const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
+    
+    // Success States
     const [showSuccessModal, setShowSuccessModal] = useState(false)
+    const [successType, setSuccessType] = useState<'rating' | 'vote'>('vote')
     const [votedLocalInfo, setVotedLocalInfo] = useState<{ name: string, image: string } | null>(null)
+    
+    // Move Vote States
+    const [isMoveModalOpen, setIsMoveModalOpen] = useState(false)
+    const [pendingRatings, setPendingRatings] = useState<{ flavor: number, service: number, presentation: number } | null>(null)
+    const [currentFavoriteName, setCurrentFavoriteName] = useState("")
+
     const [searchTerm, setSearchTerm] = useState("")
     const [progress, setProgress] = useState({ ratedCount: 0, totalCount: 0 })
 
@@ -41,15 +51,15 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
 
     // Notify parent about modal state
     useEffect(() => {
-        onModalStateChange?.(isRatingModalOpen || showSuccessModal)
-    }, [isRatingModalOpen, showSuccessModal, onModalStateChange])
+        onModalStateChange?.(isRatingModalOpen || showSuccessModal || isMoveModalOpen)
+    }, [isRatingModalOpen, showSuccessModal, isMoveModalOpen, onModalStateChange])
 
     // Load user progress
     useEffect(() => {
         if (user) {
             getUserProgress(user.id).then(setProgress)
         }
-    }, [user, showSuccessModal]) // Reload when user changes or after a successful vote/rating
+    }, [user, showSuccessModal])
 
     const handleRatingClick = (locale: Locale) => {
         setSelectedLocale(locale)
@@ -69,16 +79,11 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
 
             if (!result.success) {
                 if (result.code === 'VOTE_EXISTS') {
-                    const confirm = window.confirm(
-                        `Ya tienes un voto registrado para "${result.currentLocaleName}".\n\n` +
-                        `¿Quieres mover tu voto a "${selectedLocale.name}"?\n` +
-                        `(Tu calificación de estrellas se guardará de todos modos).`
-                    )
-                    if (confirm) {
-                        // Retry with confirmation
-                        await handleRatingSubmit(ratings, wantToVote, true)
-                        return
-                    }
+                    // Open Move Vote Modal instead of window.confirm
+                    setCurrentFavoriteName(result.currentLocaleName || "otro restaurante")
+                    setPendingRatings(ratings)
+                    setIsRatingModalOpen(false)
+                    setIsMoveModalOpen(true)
                 } else {
                     alert(result.error)
                 }
@@ -87,7 +92,9 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                     name: selectedLocale.name,
                     image: selectedLocale.image_url
                 })
+                setSuccessType(wantToVote ? 'vote' : 'rating')
                 setIsRatingModalOpen(false)
+                setIsMoveModalOpen(false)
                 setSelectedLocale(null)
                 setShowSuccessModal(true)
             }
@@ -99,6 +106,12 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
         }
     }
 
+    const handleConfirmMove = () => {
+        if (pendingRatings) {
+            handleRatingSubmit(pendingRatings, true, true)
+        }
+    }
+
     const handleReset = async () => {
         if (!user) return
         if (!window.confirm("¿ESTÁS SEGURO? Esto borrará todas tus calificaciones y tu voto para que puedas probar el flujo de nuevo.")) return
@@ -106,10 +119,9 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
         setIsSubmitting(true)
         const result = await resetUserVotes(user.id)
         if (result.success) {
-            // Force refresh of progress
             const newProgress = await getUserProgress(user.id)
             setProgress(newProgress)
-            window.location.reload() // Pure nuclear refresh to reset all local states
+            window.location.reload()
         } else {
             alert("Error al resetear: " + result.error)
         }
@@ -198,18 +210,18 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                 </div>
             ) : (
                 <motion.div
-                    key={searchTerm ? 'filtered' : 'all'} // FORCE RERENDER WHEN CLEARING
+                    key={searchTerm ? 'filtered' : 'all'}
                     variants={container}
                     initial="hidden"
-                    animate="show" // USE ANIMATE INSTEAD OF WHILEINVIEW FOR RELIABILITY
+                    animate="show"
                     className="grid grid-cols-3 gap-3 md:gap-8 lg:gap-12"
                 >
-                    {filteredLocales.map((locale, index) => (
+                    {filteredLocales.map((locale: Locale, index: number) => (
                         <motion.div key={locale.id} variants={item}>
                             <LocaleCard
                                 locale={locale}
                                 onVoteClick={handleRatingClick}
-                                rank={index + 1}
+                                rank={filteredLocales.length === locales.length ? index + 1 : undefined}
                             />
                         </motion.div>
                     ))}
@@ -243,11 +255,21 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                 isSubmitting={isSubmitting}
             />
 
+            <MoveVoteModal
+                isOpen={isMoveModalOpen}
+                onClose={() => setIsMoveModalOpen(false)}
+                onConfirm={handleConfirmMove}
+                currentLocaleName={currentFavoriteName}
+                newLocaleName={selectedLocale?.name || ""}
+                newLocaleImage={selectedLocale?.image_url || ""}
+            />
+
             <VoteSuccessModal
                 isOpen={showSuccessModal}
                 onClose={() => setShowSuccessModal(false)}
                 localeName={votedLocalInfo?.name || ""}
                 localeImage={votedLocalInfo?.image || ""}
+                type={successType}
             />
         </div>
     )
