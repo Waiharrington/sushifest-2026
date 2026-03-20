@@ -79,13 +79,18 @@ export async function submitRatingAndVote(
         }
 
         // Upsert new vote
+        // Ensure user_id is the primary identifying constraint for UPSERT
         const { error: voteError } = await supabaseAdmin
             .from('votes')
-            .upsert({ user_id: userId, locale_id: localeId }, { onConflict: 'user_id' })
+            .upsert(
+                { user_id: userId, locale_id: localeId },
+                { onConflict: 'user_id' }
+            )
 
         if (voteError) {
             console.error("Vote Error:", voteError)
-            return { success: false, error: "Error al registrar el voto." }
+            // Provide more specific error if possible
+            return { success: false, error: "Error de conexión con la arena de votación." }
         }
     }
 

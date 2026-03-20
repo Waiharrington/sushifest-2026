@@ -127,8 +127,8 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
                             ref={cardRef}
                             className="w-full aspect-[4/5] bg-gradient-to-br from-background to-black relative flex flex-col items-center justify-center p-6 border-2 border-primary/50 rounded-2xl"
                         >
-                            {/* Background Elements */}
-                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/20 via-black to-black z-0" />
+                            {/* Background Glass Layer (REDUCED BLUR FOR PERFORMANCE) */}
+                            <div className="absolute inset-0 rounded-[3rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-xl" />
                             <div className="absolute inset-0 z-0 opacity-10" style={{ backgroundImage: 'url("/particles.png")' }} />
 
                             {/* Header Crown */}

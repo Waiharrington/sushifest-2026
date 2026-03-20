@@ -100,9 +100,9 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                         className="relative w-full max-w-md rounded-[3rem] p-8 pt-16 shadow-[0_25px_100px_rgba(0,0,0,1)] overflow-visible pointer-events-auto will-change-transform"
                         style={{ willChange: 'transform, opacity' } as React.CSSProperties}
                     >
-                        {/* Background Glass Layer (SOLIDIFIED FOR CONSISTENCY) */}
-                        <div className="absolute inset-0 rounded-[3rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-3xl">
-                            <div className="absolute inset-0 scale-110 blur-xl opacity-60"> {/* BLURRED PATTERN INSIDE */}
+                        {/* Background Glass Layer (REDUCED BLUR FOR PERFORMANCE) */}
+                        <div className="absolute inset-0 rounded-[3rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-xl">
+                            <div className="absolute inset-0 scale-110 blur-lg opacity-40"> {/* REDUCED BLUR PATTERN */}
                                 <Image src="/modal-bg.png" alt="F" fill className="object-cover" />
                             </div>
                             <div className="absolute inset-0 bg-black/20" /> {/* DARK OVERLAY */}
@@ -113,8 +113,8 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                             />
                         </div>
 
-                        {/* Floating Crown (Premium) */}
-                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-20 w-32 md:w-36 drop-shadow-[0_0_30px_rgba(255,215,0,0.4)]">
+                        {/* Floating Crown (Optimized) */}
+                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-20 w-32 md:w-36 shadow-2xl">
                             <Image
                                 src="/crown-header.png"
                                 alt="Crown"
@@ -143,11 +143,11 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                         </div>
 
                         {isLoadingData ? (
-                            <div className="flex flex-col items-center justify-center py-16 space-y-4">
+                            <div className="flex flex-col items-center justify-center py-16 space-y-4 relative z-10">
                                 <motion.div 
                                     animate={{ rotate: 360 }}
                                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                                    className="text-4xl"
+                                    className="text-4xl relative z-[60]"
                                 >
                                     🍣
                                 </motion.div>

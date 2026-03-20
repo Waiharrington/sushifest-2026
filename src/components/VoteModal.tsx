@@ -45,98 +45,85 @@ export function VoteModal({ isOpen, onClose, onVote, localeName, isSubmitting }:
                 <RiceParticles />
             </div>
 
-            <div className="relative w-full max-w-md rounded-2xl shadow-[0_0_80px_rgba(0,102,255,0.1)] p-8 overflow-hidden zoom-in-95 duration-300 pointer-events-auto">
-                {/* Background Glass Layer (SOLIDIFIED FOR CONSISTENCY) */}
-                <div className="absolute inset-0 rounded-2xl overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-3xl">
-                    <div className="absolute inset-0 scale-110 blur-xl opacity-60"> {/* BLURRED PATTERN INSIDE */}
+            <div className="relative w-full max-w-md rounded-[3rem] shadow-[0_25px_100px_rgba(0,0,0,1)] p-8 overflow-hidden zoom-in-95 duration-300 pointer-events-auto">
+                {/* Background Glass Layer (REDUCED BLUR FOR PERFORMANCE) */}
+                <div className="absolute inset-0 rounded-[3rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-xl">
+                    <div className="absolute inset-0 scale-110 blur-lg opacity-40">
                         <Image src="/modal-bg.png" alt="F" fill className="object-cover" />
                     </div>
                     <div className="absolute inset-0 bg-black/20" /> {/* DARK OVERLAY */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] animate-shine" />
                 </div>
 
-                {/* Top Glow Line */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent shadow-[0_0_10px_rgba(0,102,255,0.8)]" />
-
-                {/* Bottom Glow Line */}
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
-
-                {/* Floating Crown */}
-                <div className="absolute -top-20 left-1/2 -translate-x-1/2 z-20">
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
-                        <Image
-                            src="/crown-modal.png"
-                            alt="Crown"
-                            width={160}
-                            height={100}
-                            className="w-[160px] h-auto drop-shadow-[0_0_20px_rgba(0,102,255,0.6)] relative z-10"
-                        />
-                    </div>
+                {/* Floating Crown (Optimized) */}
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-20 w-32 md:w-36 shadow-2xl">
+                    <Image
+                        src="/crown-header.png"
+                        alt="Crown"
+                        width={150}
+                        height={100}
+                        className="w-full h-auto animate-float"
+                    />
                 </div>
 
                 <button
                     onClick={onClose}
                     aria-label="Cerrar modal"
-                    className="absolute right-4 top-4 text-white/30 hover:text-white transition-colors z-[60] p-2"
+                    className="absolute right-8 top-6 text-white/30 hover:text-white transition-colors z-[60] p-2"
                 >
                     ✕
                 </button>
 
                 <div className="relative z-10 text-center mt-8 mb-8">
-                    <h2 className="text-2xl font-bold text-white mb-2 tracking-wide drop-shadow-sm">
-                        Estás a un paso de votar
-                    </h2>
-                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mx-auto">
-                        Ingresa tus datos para registrar tu voto y participar en la elección del <span className="text-secondary font-bold">{localeName}</span>
+                    <h2 className="text-3xl font-lilita text-white mb-2 leading-none uppercase tracking-tight">CONFIRMAR VOTO</h2>
+                    <p className="text-[#00B2FF] font-black text-[11px] uppercase tracking-[0.25em] drop-shadow-[0_0_8px_rgba(0,178,255,0.4)]">
+                        {localeName}
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-                    <div className="space-y-1.5 text-left">
-                        <label className="text-xs font-bold text-primary ml-1">Nombre</label>
+                <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                    <div className="space-y-2 text-left">
+                        <label className="text-[10px] font-black text-[#00B2FF] uppercase tracking-widest ml-1">Nombre Completo</label>
                         <Input
-                            placeholder="Tu nombre completo"
+                            placeholder="Ej: Juan Pérez"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            className="bg-black/40 border-white/10 text-white placeholder:text-white/20 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 rounded-lg h-11"
+                            className="bg-black/40 border-white/10 text-white placeholder:text-white/20 focus:border-[#00B2FF]/50 focus:ring-1 focus:ring-[#00B2FF]/20 rounded-2xl h-14 px-5"
                         />
                     </div>
 
-                    <div className="space-y-1.5 text-left">
-                        <label className="text-xs font-bold text-primary ml-1">Teléfono o Email</label>
+                    <div className="space-y-2 text-left">
+                        <label className="text-[10px] font-black text-[#00B2FF] uppercase tracking-widest ml-1">Teléfono o Email</label>
                         <Input
-                            placeholder="3001234567 o correo@ejemplo.com"
+                            placeholder="Ej: 3001234567"
                             value={contact}
                             onChange={(e) => setContact(e.target.value)}
                             required
-                            className="bg-black/40 border-white/10 text-white placeholder:text-white/20 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 rounded-lg h-11"
+                            className="bg-black/40 border-white/10 text-white placeholder:text-white/20 focus:border-[#00B2FF]/50 focus:ring-1 focus:ring-[#00B2FF]/20 rounded-2xl h-14 px-5"
                         />
                     </div>
 
-                    <div className="pt-4 flex items-center gap-3">
-                        <Button
-                            type="button"
-                            onClick={onClose}
-                            className="flex-1 bg-transparent hover:bg-white/5 text-white/60 font-medium h-12 border border-transparent hover:text-white"
-                        >
-                            Cancelar
-                        </Button>
+                    <div className="pt-4 flex flex-col gap-4">
                         <Button
                             type="submit"
                             disabled={isSubmitting || !name || !contact}
-                            className="flex-[2] bg-gradient-to-r from-primary to-blue-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all border border-white/10"
+                            className="w-full h-16 rounded-2xl bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF] text-white font-lilita text-2xl uppercase tracking-wider shadow-lg shadow-[#00B2FF]/20 hover:scale-[1.02] active:scale-95 transition-all border border-white/10"
                         >
-                            {isSubmitting ? "Enviando..." : "Confirmar mi voto 🔥"}
+                            {isSubmitting ? "ENVIANDO..." : "CONFIRMAR VOTO 🍣"}
                         </Button>
+                        
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="text-white/30 hover:text-white transition-colors font-black text-[10px] uppercase tracking-[0.25em]"
+                        >
+                            CANCELAR
+                        </button>
                     </div>
 
-                    <div className="text-center pt-2">
-                        <p className="text-[10px] text-white/40 flex items-center justify-center gap-1.5">
-                            <span>🔒</span> Votación segura • Un voto por persona
-                        </p>
-                    </div>
+                    <p className="text-center text-[9px] text-white/20 font-bold uppercase tracking-[0.2em]">
+                        🔒 Tus datos están protegidos por el festival
+                    </p>
                 </form>
             </div>
         </div>
