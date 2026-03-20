@@ -125,7 +125,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
           
           <Image
             src="/logo-fest.png"
-            alt="SushiFest 2026 Logo"
+            alt="Sushi Fest 2026 Logo"
             width={200}
             height={150}
             className="w-full h-auto drop-shadow-[0_0_20px_rgba(0,178,255,0.6)] brightness-110 relative z-10"
@@ -165,7 +165,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
           </h1>
           <p className="text-[0.95rem] text-white/90 font-medium leading-normal drop-shadow-lg px-2">
             Califica sabor, servicio y presentación. 
-            Solo uno será coronado en el <span className="text-[#00B2FF] font-black whitespace-nowrap">Sushifest 🏆</span>
+            Solo uno será coronado en el <span className="text-[#00B2FF] font-black whitespace-nowrap">Sushi Fest 🏆</span>
           </p>
         </motion.div>
 
@@ -214,7 +214,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
 
         {/* Footer (Refined Tracking) */}
         <footer className="mt-8 text-white/50 text-[10px] uppercase tracking-[0.2em] font-medium opacity-80">
-           © 2026 SUSHIFEST • PANAMÁ
+           © 2026 SUSHI FEST • PANAMÁ
         </footer>
       </div>
     </div>
@@ -280,7 +280,7 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
             
             <Image
               src="/logo-fest.png"
-              alt="SushiFest 2026 Logo"
+              alt="Sushi Fest 2026 Logo"
               width={300}
               height={225}
               className="w-full h-auto drop-shadow-[0_0_30px_rgba(0,178,255,0.7)] brightness-110 relative z-10"
@@ -317,7 +317,7 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
             </h1>
 
             <p className="text-xl text-white/90 font-medium mb-12 max-w-2xl mx-auto leading-relaxed uppercase tracking-wider">
-              Califica sabor, servicio y presentación. <br /> Solo uno será coronado en el <span className="text-[#00B2FF] font-black">Sushifest 🏆</span>
+              Califica sabor, servicio y presentación. <br /> Solo uno será coronado en el <span className="text-[#00B2FF] font-black">Sushi Fest 🏆</span>
             </p>
           </motion.div>
 
@@ -352,7 +352,7 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
           </div>
 
           <footer className="mt-20 text-white/40 text-[10px] uppercase tracking-[0.3em] font-bold">
-            © 2026 SUSHIFEST • PANAMÁ
+            © 2026 SUSHI FEST • PANAMÁ
           </footer>
       </div>
     </div>

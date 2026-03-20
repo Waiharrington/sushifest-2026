@@ -96,7 +96,7 @@ function RankingContent() {
                                 <Trophy className="w-10 h-10 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]" />
                             </div>
                             <h1 className="text-xl md:text-2xl font-bold text-white uppercase tracking-wide mb-1 font-lilita drop-shadow-sm">
-                                Ranking Oficial – Sushifest 2026
+                                Ranking Oficial – Sushi Fest 2026
                             </h1>
                             <div className="flex items-center justify-center gap-2 opacity-80">
                                 <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-primary/50" />
@@ -193,13 +193,14 @@ function RankingContent() {
                                 <div className="py-2 px-3 rounded-lg bg-gradient-to-r from-blue-950/50 to-background/20 border border-primary/30 flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <Flame className="w-4 h-4 text-primary animate-pulse" />
-                                        <span className="text-blue-200 text-xs font-medium">Tu voto:</span>
+                                        <p className="text-slate-400 text-sm">Gestiona el Sushi Fest 2026</p>
                                         <span className="text-white font-bold text-sm uppercase tracking-wide">{votedName}</span>
                                     </div>
-                                    <div className="text-blue-200/80 text-xs">
+                                    <p className="text-slate-400">
+                                        Sushi Fest 2026 Admin
                                         {/* Place for user specific count if we had it, or just generic check */}
                                         ✅
-                                    </div>
+                                    </p>
                                 </div>
                             )}
 

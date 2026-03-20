@@ -34,7 +34,7 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
             const blob = await (await fetch(imageData)).blob()
             const file = new File([blob], "voto-sushifest.png", { type: "image/png" })
 
-            const shareText = `¡Acabo de votar por *${votedLocalName}* en el Sushifest 2026! 🍣👑\nVota tú también aquí: https://sushifest.vercel.app`
+            const shareText = `¡Acabo de votar por *${votedLocalName}* en el Sushi Fest 2026! 🍣👑\nVota tú también aquí: https://sushifest.vercel.app`
 
             if (platform === 'whatsapp') {
                 // WhatsApp URL Scheme
@@ -55,7 +55,7 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
                 if (navigator.share) {
                     try {
                         await navigator.share({
-                            title: 'Sushifest 2026',
+                            title: "Sushi Fest 🏆 Panamá 2026",
                             text: shareText,
                             files: [file],
                             url: 'https://sushifest.vercel.app'
@@ -122,8 +122,9 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
                             {/* Title */}
                             <h3 className="relative z-10 text-white font-bold text-center text-xl mb-4 leading-tight font-lilita tracking-wide drop-shadow-md">
                                 Yo ya voté en el<br />
-                                <span className="text-secondary text-2xl drop-shadow-[0_0_10px_rgba(255,77,0,0.8)]">Sushifest 2026</span>
+                                <span className="text-secondary text-2xl drop-shadow-[0_0_10px_rgba(255,77,0,0.8)]">Sushi Fest 2026</span>
                             </h3>
+                            <p className="relative z-10 text-white text-xs font-medium mb-4">© 2026 SUSHI FEST • PANAMÁ</p>
 
                             {/* Voted Local Image */}
                             <div className="relative z-10 w-32 h-32 mb-6 p-2 bg-black/50 rounded-xl border border-primary/30 backdrop-blur-sm shadow-[0_0_30px_rgba(0,102,255,0.1)]">

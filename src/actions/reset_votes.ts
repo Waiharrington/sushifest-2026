@@ -1,22 +1,36 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 
-/**
- * Resets all ratings and votes for a specific user.
- * USE WITH CAUTION - This is primarily for testing/resetting progress during development.
- */
 export async function resetUserVotes(userId: string) {
   try {
-    const { error } = await supabase
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!serviceRoleKey) throw new Error("Service role key missing");
+    
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      serviceRoleKey
+    );
+
+    // 1. Delete all ratings
+    const { error: ratingsError } = await supabaseAdmin
       .from('ratings')
       .delete()
       .eq('user_id', userId);
 
-    if (error) throw error;
+    if (ratingsError) throw ratingsError;
+
+    // 2. Delete all votes
+    const { error: votesError } = await supabaseAdmin
+      .from('votes')
+      .delete()
+      .eq('user_id', userId);
+
+    if (votesError) throw votesError;
 
     revalidatePath('/votar');
+    revalidatePath('/ranking');
     return { success: true };
   } catch (error) {
     console.error("Error resetting user votes:", error);
