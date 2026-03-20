@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
-import { AuthModal } from "@/components/AuthModal";
+import AuthModal from "@/components/AuthModal";
 import { claimCoupon, getMyCoupon, redeemCoupon } from "@/actions/coupon";
 import { useRouter } from "next/navigation";
 import { Particles } from "@/components/Particles";
@@ -185,11 +185,12 @@ export default function CouponPage() {
                 </button>
             </div>
 
-            <AuthModal 
-                isOpen={isAuthModalOpen} 
-                onClose={() => setIsAuthModalOpen(false)} 
-                onSuccess={fetchCoupon}
-            />
+            {isAuthModalOpen && (
+                <AuthModal 
+                    onClose={() => setIsAuthModalOpen(false)} 
+                    onSuccess={fetchCoupon}
+                />
+            )}
         </div>
     );
 }
