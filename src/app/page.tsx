@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Particles } from "@/components/Particles";
-import { SponsorBackground } from "@/components/SponsorBackground";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
@@ -207,95 +205,123 @@ function MobileHome({ handleStartVoting, user }: Omit<HomeProps, "router">) {
 
 function DesktopHome({ handleStartVoting, user, router }: HomeProps) {
   return (
-    <div className="hidden md:block h-screen bg-background text-white relative overflow-hidden selection:bg-primary/30">
-      {/* Original Desktop Content (Isolated) */}
-      <div className="fixed top-0 left-0 w-full h-screen z-0">
-        <Image
-          src="/bg-home.jpg"
-          alt="Fondo de Escritorio"
-          fill
-          className="object-cover opacity-30"
-          priority
-          quality={100}
-        />
-        <Particles color="#0537BB" />
-        <SponsorBackground />
-        <RiceParticles />
+    <div className="hidden md:block h-screen bg-[#0A021A] text-white relative overflow-hidden selection:bg-[#00B2FF]/30">
+      {/* Cinematic Vignette Overlay (Sponsor Level Focus) */}
+      <div className="absolute inset-0 z-30 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
+
+      {/* Background Layer with subtle movement */}
+      <div className="absolute inset-0 z-0">
+        <motion.div 
+          animate={{ scale: [1, 1.03, 1] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0"
+        >
+          <Image
+            src="/bg-welcome-premium.png"
+            alt="Fondo de Festival"
+            fill
+            className="object-cover opacity-80"
+            priority
+            quality={100}
+          />
+        </motion.div>
+        {/* Overlay to ensure readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
       </div>
 
-      <div className="relative z-10 flex flex-col h-full bg-gradient-to-b from-background/40 to-background/80">
-        <main className="flex-grow flex flex-col items-center justify-center gap-0 px-4 pt-10 pb-12 text-center max-w-4xl mx-auto w-full h-full">
-          
-          <div className="relative w-full max-w-[180px] aspect-square flex justify-center items-center mb-6">
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
-              className="relative w-[100%] h-[100%] z-10"
-            >
-              <motion.div
-                className="w-full h-full relative"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              >
-                <Image
-                  src="/logo.png"
-                  alt="Sushifest 2026"
-                  fill
-                  className="object-cover rounded-full drop-shadow-[0_0_35px_rgba(5,55,187,0.5)] filter brightness-110"
-                />
-              </motion.div>
-            </motion.div>
-          </div>
+      <RiceParticles />
 
+      <div className="relative z-10 flex flex-col h-full items-center justify-center text-center max-w-5xl mx-auto w-full">
+          
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 1, type: "spring" }}
-            className="-mt-16 relative z-20"
+             initial={{ opacity: 0, scale: 0.8 }}
+             animate={{ opacity: 1, scale: 1 }}
+             transition={{ duration: 0.8, type: "spring" }}
+             className="relative w-full max-w-[240px] aspect-[4/3] mb-12 flex items-center justify-center"
           >
-            <Image src="/crown.png" alt="Corona" width={140} height={110} className="w-[140px] h-auto drop-shadow-lg mx-auto" />
+            {/* Pulsing blue glow (Desktop Version - Wider) */}
+            <motion.div 
+              animate={{ opacity: [0.1, 0.3, 0.1], scale: [0.8, 1.2, 0.8] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute inset-x-[-40%] inset-y-[-40%] bg-[#0066FF]/40 blur-[120px] rounded-full" 
+            />
+            
+            <Image
+              src="/logo-fest.png"
+              alt="SushiFest 2026 Logo"
+              width={300}
+              height={225}
+              className="w-full h-auto drop-shadow-[0_0_30px_rgba(0,178,255,0.7)] brightness-110 relative z-10"
+              priority
+            />
+
+            {/* Golden crown (Desktop Version - Independent Parallax) */}
+            <motion.div
+               animate={{ y: [0, -8, 0], x: [0, 3, 0], scale: [1, 1.1, 1], rotate: [0, 3, 0] }}
+               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+               className="absolute -bottom-4 translate-y-full left-1/2 -translate-x-1/2 z-20 w-64 h-auto"
+            >
+               <Image 
+                 src="/crown.png" 
+                 alt="Corona" 
+                 width={240} 
+                 height={180} 
+                 className="w-full drop-shadow-[0_12px_35px_rgba(255,183,0,0.6)]"
+               />
+            </motion.div>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-            className="text-5xl text-white uppercase leading-tight tracking-tight mb-4 -mt-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-lilita"
-          >
-            ¡Vota por el mejor<br />sushi de Panamá!
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
-            className="text-lg text-white/90 font-medium mb-6 max-w-2xl mx-auto leading-relaxed"
+            transition={{ delay: 1, duration: 1 }}
+            className="mt-16"
           >
-            Califica sabor, servicio y presentación. <br className="hidden md:block"/> Solo uno será coronado en el <span className="font-bold text-secondary">Sushifest 🏆</span>
-          </motion.p>
+            <h1
+              className="text-7xl text-white uppercase leading-[1.0] mb-8 font-lilita tracking-tight"
+              style={{ textShadow: '0 12px 24px rgba(0,0,0,0.9), 0 0 60px rgba(0,0,0,1)' }}
+            >
+              ¡Vota por el mejor<br />sushi de Panamá!
+            </h1>
 
-          <motion.button
-            onClick={handleStartVoting}
-            whileHover={{ scale: 1.1, boxShadow: "0 0 50px rgba(5,55,187,0.8)" }}
-            whileTap={{ scale: 0.95 }}
-            className="group relative bg-gradient-to-r from-primary to-blue-700 text-xl py-4 px-10 rounded-full flex items-center gap-3 border border-white/20 font-lilita tracking-wide mt-4 overflow-hidden"
-          >
-            <span className="relative z-10">{user ? "CONTINUAR VOTANDO 🍣" : "EMPIEZA A VOTAR 🔥"}</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          </motion.button>
+            <p className="text-xl text-white/90 font-medium mb-12 max-w-2xl mx-auto leading-relaxed uppercase tracking-wider">
+              Califica sabor, servicio y presentación. <br /> Solo uno será coronado en el <span className="text-[#00B2FF] font-black">Sushifest 🏆</span>
+            </p>
+          </motion.div>
 
-          <motion.button
-            onClick={() => router.push("/ranking")}
-            className="text-white/60 hover:text-white font-lilita tracking-widest text-xs mt-10 uppercase underline underline-offset-8 decoration-white/20 transition-colors"
-          >
-            Ver Ranking de Estrellas ⭐️
-          </motion.button>
+          {/* Buttons Container Desktop */}
+          <div className="w-full flex flex-col items-center gap-6 max-w-sm">
+            <motion.button
+              onClick={handleStartVoting}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative h-20 w-full rounded-full overflow-hidden flex items-center justify-center shadow-[0_15px_45px_rgba(0,102,255,0.3)]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF] bg-[length:200%_auto] animate-gradient-x" />
+              <div className="absolute inset-[1px] rounded-full border border-white/30" />
+              <span className="relative z-10 text-white font-black text-2xl drop-shadow-md uppercase tracking-tight">
+                {user ? "CONTINUAR VOTANDO 🍣" : "EMPIEZA A VOTAR 🔥"}
+              </span>
+              <motion.div 
+                 animate={{ x: ['150%', '-150%'] }}
+                 transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-[-25deg] z-20" 
+              />
+            </motion.button>
 
-          <footer className="py-10 text-center text-white/40 text-[10px] mt-auto relative z-20 uppercase tracking-[0.2em]">
-            <p>© 2026 SUSHIFEST • PANAMÁ</p>
+            <motion.button
+              onClick={() => router.push("/ranking")}
+              whileHover={{ color: "#ffffff", scale: 1.05 }}
+              className="text-white/60 font-black tracking-[0.2em] text-sm uppercase transition-all flex items-center gap-2"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#FF4D00] shadow-[0_0_8px_#FF4D00]" />
+              Ver el ranking de estrellas
+            </motion.button>
+          </div>
+
+          <footer className="mt-20 text-white/40 text-[10px] uppercase tracking-[0.3em] font-bold">
+            © 2026 SUSHIFEST • PANAMÁ
           </footer>
-        </main>
       </div>
     </div>
   );
