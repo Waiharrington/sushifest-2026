@@ -104,11 +104,11 @@ export function LocaleCard({ locale, onVoteClick, rank, isRated, isVoted }: Loca
                                 : 'from-[#0066FF] to-[#00B2FF]'
                     } bg-[length:200%_auto] ${isVoted ? 'animate-shimmer' : ''} transition-all group-hover/btn:brightness-110`} />
                     
-                    <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-[9px] min-[360px]:text-[10px] md:text-sm font-black text-white uppercase tracking-wider px-1">
+                    <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-[10px] md:text-sm font-black text-white uppercase tracking-wider px-1">
                         {isVoted ? (
                             <>VOTO FINAL 👑</>
                         ) : isRated ? (
-                            <>MI CALIFICACIÓN 🍣</>
+                            <>MI OPINIÓN 🍣</>
                         ) : (
                             <>CALIFICAR 🍣</>
                         )}
