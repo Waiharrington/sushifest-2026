@@ -40,20 +40,21 @@ export default function VotingPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-0"
+                        className="fixed inset-0 z-0 overflow-hidden"
                     >
-                        {/* Night Pattern Background (Repeating) */}
-                        <div 
-                            className="absolute inset-0 bg-[url('/bg-modal.png')] bg-repeat opacity-100 bg-[length:240px]" 
-                            style={{ 
-                                imageRendering: 'crisp-edges',
-                                backgroundAttachment: 'fixed'
-                            }}
+                        {/* Night Festival Background */}
+                        <Image
+                            src="/bg-votar-2026.png"
+                            alt="Night Arena Background"
+                            fill
+                            className="object-cover opacity-60"
+                            priority
+                            quality={100}
                         />
 
-                        {/* Subtle Vignette to maintain contrast for cards */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80" />
-                        <div className="absolute inset-0 bg-[#0A021A]/30" />
+                        {/* Blue Vignette for Mood */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
+                        <div className="absolute inset-0 bg-[#0A021A]/40 mix-blend-multiply" />
 
                         {/* Rain Particles */}
                         <RiceParticles />

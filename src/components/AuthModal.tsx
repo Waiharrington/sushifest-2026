@@ -66,10 +66,12 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.95, opacity: 0, y: 20 }}
                     transition={{ type: "spring", damping: 25, stiffness: 400 }}
-                    className="relative w-full max-w-sm rounded-[3rem] p-8 shadow-[0_0_80px_rgba(0,178,255,0.15)] overflow-hidden pointer-events-auto border border-white/20 bg-[#0A021A]/60 backdrop-blur-3xl"
+                    className="relative w-full max-w-sm rounded-[3rem] p-8 shadow-[0_0_100px_rgba(0,178,255,0.2)] overflow-hidden pointer-events-auto border border-white/20 bg-[#0A021A]"
                 >
-                    {/* Pattern Background Layer */}
-                    <div className="absolute inset-0 bg-[url('/bg-modal.png')] bg-repeat opacity-[0.07] bg-[length:150px] pointer-events-none" />
+                    {/* Sharp Pattern Background */}
+                    <div className="absolute inset-0 bg-[url('/bg-modal.png')] bg-repeat opacity-100 bg-[length:180px] pointer-events-none" 
+                         style={{ imageRendering: 'crisp-edges' }} />
+                    <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
                     {/* Background Shine */}
                     <motion.div 

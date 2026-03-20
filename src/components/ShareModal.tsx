@@ -87,12 +87,17 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.9, opacity: 0 }}
-                    className="w-full max-w-sm bg-background border border-primary/30 rounded-3xl p-6 relative shadow-[0_0_50px_rgba(0,102,255,0.2)]"
+                    className="w-full max-w-sm bg-[#0A021A] border border-white/20 rounded-[3rem] p-6 relative shadow-[0_0_100px_rgba(0,178,255,0.2)] overflow-hidden"
                 >
+                    {/* Sharp Pattern Background */}
+                    <div className="absolute inset-0 bg-[url('/bg-modal.png')] bg-repeat opacity-100 bg-[length:180px] pointer-events-none" 
+                         style={{ imageRendering: 'crisp-edges' }} />
+                    <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+
                     {/* Close Button */}
                     <button
                         onClick={onClose}
-                        className="absolute -top-3 -right-3 bg-slate-800 text-white p-2 rounded-full hover:bg-slate-700 transition-colors z-50 border border-slate-600 shadow-lg"
+                        className="absolute top-4 right-4 text-white/30 hover:text-white transition-colors p-2 z-50 bg-white/5 rounded-full border border-white/10"
                     >
                         <X className="w-5 h-5" />
                     </button>
