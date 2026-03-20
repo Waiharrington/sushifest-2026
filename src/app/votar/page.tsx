@@ -40,21 +40,20 @@ export default function VotingPage() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-0 overflow-hidden"
+                        className="fixed inset-0 z-0"
                     >
-                        {/* Night Festival Background */}
-                        <Image
-                            src="/bg-votar-2026.png"
-                            alt="Night Arena Background"
-                            fill
-                            className="object-cover opacity-60" // SLIGHTLY LOWER OPACITY FOR BETTER CARD CONTRAST
-                            priority
-                            quality={100}
+                        {/* Night Pattern Background (Repeating) */}
+                        <div 
+                            className="absolute inset-0 bg-[url('/bg-modal.png')] bg-repeat opacity-100 bg-[length:240px]" 
+                            style={{ 
+                                imageRendering: 'crisp-edges',
+                                backgroundAttachment: 'fixed'
+                            }}
                         />
 
-                        {/* Blue Vignette for Mood */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black" />
-                        <div className="absolute inset-0 bg-[#0A021A]/40 mix-blend-multiply" />
+                        {/* Subtle Vignette to maintain contrast for cards */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/80" />
+                        <div className="absolute inset-0 bg-[#0A021A]/30" />
 
                         {/* Rain Particles */}
                         <RiceParticles />
@@ -99,7 +98,7 @@ export default function VotingPage() {
                         transition={{ delay: 0.8 }}
                         className="text-white/60 text-xs md:text-lg max-w-xl mx-auto font-black uppercase tracking-[0.3em] px-4"
                     >
-                        Sushifest 🏆 Panamá 2026
+                        Sushi Fest 🏆 Panamá 2026
                     </motion.p>
                 </div>
 
@@ -133,7 +132,7 @@ export default function VotingPage() {
 
                 {/* Footer */}
                 <footer className="py-12 text-center text-white/20 text-[10px] z-20 relative uppercase tracking-[0.4em] font-black">
-                    <p>© 2026 SUSHIFEST • PANAMÁ</p>
+                    <p>© 2026 SUSHI FEST • PANAMÁ</p>
                 </footer>
 
             </div>
