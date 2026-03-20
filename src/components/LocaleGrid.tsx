@@ -127,8 +127,14 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
             {/* Search and Instructions Section */}
             <div className="max-w-2xl mx-auto space-y-6">
                 <div className="relative group">
-                    <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                        <svg className="w-5 h-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <div 
+                        className="absolute inset-y-0 left-0 flex items-center justify-center" 
+                        style={{ width: '4rem', zIndex: 50, pointerEvents: 'none' }}
+                    >
+                        <svg 
+                            style={{ width: '1.25rem', height: '1.25rem', color: 'white', opacity: 1 }}
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
+                        >
                             <circle cx="11" cy="11" r="8" />
                             <line x1="21" y1="21" x2="16.65" y2="16.65" />
                         </svg>
@@ -138,7 +144,8 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                         placeholder="Buscar restaurante..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-black/60 border border-white/20 rounded-full py-5 pl-16 pr-12 outline-none focus:border-[#00B2FF] focus:bg-black/80 text-white placeholder:text-white/20 transition-all backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+                        style={{ paddingLeft: '4rem', paddingRight: '4rem' }}
+                        className="w-full bg-black/80 border border-white/20 rounded-full py-5 outline-none focus:border-[#00B2FF] text-white placeholder:text-white/20 transition-all backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)]"
                     />
                     {searchTerm && (
                         <button 
@@ -164,10 +171,10 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                 </div>
             ) : (
                 <motion.div
+                    key={searchTerm ? 'filtered' : 'all'} // FORCE RERENDER WHEN CLEARING
                     variants={container}
                     initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, margin: "-50px" }}
+                    animate="show" // USE ANIMATE INSTEAD OF WHILEINVIEW FOR RELIABILITY
                     className="grid grid-cols-3 gap-3 md:gap-8 lg:gap-12"
                 >
                     {filteredLocales.map((locale, index) => (
