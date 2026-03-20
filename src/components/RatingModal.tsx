@@ -88,13 +88,8 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                         exit={{ scale: 0.9, opacity: 0, y: 40 }}
                         transition={{ type: "spring", damping: 25, stiffness: 400 }}
                         style={{ willChange: 'transform, opacity' } as React.CSSProperties}
-                        className="relative w-full max-w-md bg-[#0A021A] border border-white/20 rounded-[3rem] shadow-[0_0_100px_rgba(0,178,255,0.2)] p-8 pt-16 overflow-hidden"
+                        className="relative w-full max-w-md bg-[#0A021A]/80 border border-white/10 rounded-[3rem] shadow-[0_25px_100px_rgba(0,0,0,1)] p-8 pt-16 overflow-visible backdrop-blur-3xl"
                     >
-                        {/* Sharp Pattern Background */}
-                        <div className="absolute inset-0 bg-[url('/bg-modal.png')] bg-repeat opacity-100 bg-[length:180px] pointer-events-none" 
-                             style={{ imageRendering: 'crisp-edges' }} />
-                        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-
                         {/* Background Shine */}
                         <motion.div 
                             animate={{ x: ['-200%', '300%'] }}
