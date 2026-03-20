@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
-import { RiceParticles } from "./RiceParticles";
 import { useAuth } from "@/context/AuthContext";
 
 interface AuthModalProps {
@@ -63,18 +62,19 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                     priority 
                 />
                 <div className="absolute inset-0 bg-black/10" /> {/* LIGHTER VIGNETTE FOR 100% VISIBILITY */}
-                <RiceParticles />
             </div>
 
             {/* Modal Card */}
             <motion.div
-                initial={{ scale: 0.9, opacity: 0, y: 40 }}
-                animate={{ scale: 1, opacity: 1, y: [0, -6, 0] }}
+                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
                 transition={{ 
-                    y: { duration: 5, repeat: Infinity, ease: "easeInOut" },
-                    default: { type: "spring", damping: 25, stiffness: 300 }
+                    type: "spring", 
+                    damping: 25, 
+                    stiffness: 400 
                 }}
-                className="relative w-full max-w-sm rounded-[2.5rem] p-8 shadow-[0_25px_90px_rgba(0,0,0,1)] overflow-visible pointer-events-auto"
+                className="relative w-full max-w-sm rounded-[2.5rem] p-8 shadow-[0_25px_90px_rgba(0,0,0,1)] overflow-visible pointer-events-auto will-change-transform"
+                style={{ willChange: 'transform, opacity' } as React.CSSProperties}
             >
                 {/* Close Button */}
                 <button

@@ -110,7 +110,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
            initial={{ opacity: 0, scale: 0.8 }}
            animate={{ opacity: 1, scale: 1 }}
            transition={{ duration: 0.8, type: "spring" }}
-           className="relative w-full max-w-[160px] aspect-[4/3] mb-4 flex items-center justify-center"
+           className="relative w-full max-w-[140px] aspect-[4/3] mb-4 flex items-center justify-center"
         >
           {/* Pulsing blue glow behind logo (Intensified Electric Blue) */}
           <motion.div 
@@ -265,7 +265,7 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
              initial={{ opacity: 0, scale: 0.8 }}
              animate={{ opacity: 1, scale: 1 }}
              transition={{ duration: 0.8, type: "spring" }}
-             className="relative w-full max-w-[240px] aspect-[4/3] mb-12 flex items-center justify-center"
+             className="relative w-full max-w-[200px] aspect-[4/3] mb-12 flex items-center justify-center"
           >
             {/* Pulsing blue glow (Desktop Version - Wider) */}
             <motion.div 
