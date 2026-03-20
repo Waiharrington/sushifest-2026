@@ -37,6 +37,7 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
     const [isMoveModalOpen, setIsMoveModalOpen] = useState(false)
     const [pendingRatings, setPendingRatings] = useState<{ flavor: number, service: number, presentation: number } | null>(null)
     const [currentFavoriteName, setCurrentFavoriteName] = useState("")
+    const [currentFavoriteImage, setCurrentFavoriteImage] = useState("")
 
     const [searchTerm, setSearchTerm] = useState("")
     const [progress, setProgress] = useState({ ratedCount: 0, totalCount: 0 })
@@ -83,6 +84,7 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                 if (result.code === 'VOTE_EXISTS') {
                     // Open Move Vote Modal instead of window.confirm
                     setCurrentFavoriteName(result.currentLocaleName || "otro restaurante")
+                    setCurrentFavoriteImage(result.currentLocaleImage || "")
                     setPendingRatings(ratings)
                     setIsRatingModalOpen(false)
                     setIsMoveModalOpen(true)
@@ -264,6 +266,7 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                 onClose={() => setIsMoveModalOpen(false)}
                 onConfirm={handleConfirmMove}
                 currentLocaleName={currentFavoriteName}
+                currentLocaleImage={currentFavoriteImage}
                 newLocaleName={selectedLocale?.name || ""}
                 newLocaleImage={selectedLocale?.image_url || ""}
             />

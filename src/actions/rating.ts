@@ -59,17 +59,18 @@ export async function submitRatingAndVote(
         // 2.1 Check if user has a vote ELSEWHERE - USING ADMIN TO BYPASS RLS
         const { data: otherVote } = await supabaseAdmin
             .from('votes')
-            .select('locale_id, locales(name)')
+            .select('locale_id, locales(name, image_url)')
             .eq('user_id', userId)
             .neq('locale_id', localeId)
             .maybeSingle() // Use maybeSingle to avoid 406 errors on empty results
 
         if (otherVote && !confirmMoveVote) {
-            const voteData = otherVote as unknown as { locales: { name: string } };
+            const voteData = otherVote as unknown as { locales: { name: string, image_url: string } };
             return { 
                 success: false, 
                 code: 'VOTE_EXISTS', 
-                currentLocaleName: voteData.locales?.name || "un restaurante" 
+                currentLocaleName: voteData.locales?.name || "un restaurante",
+                currentLocaleImage: voteData.locales?.image_url || "" 
             }
         }
 
