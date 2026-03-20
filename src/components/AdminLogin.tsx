@@ -41,7 +41,7 @@ export function AdminLogin() {
                 <div className="text-center mb-6">
                     <span className="text-4xl">🔐</span>
                     <h1 className="text-2xl font-bold mt-4">Acceso Admin</h1>
-                    <p className="text-slate-400 text-sm">Gestiona el Sushifest 2026</p>
+                    <p className="text-slate-400 text-sm">Gestiona el Sushi Fest 2026</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">

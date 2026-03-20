@@ -193,14 +193,12 @@ function RankingContent() {
                                 <div className="py-2 px-3 rounded-lg bg-gradient-to-r from-blue-950/50 to-background/20 border border-primary/30 flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <Flame className="w-4 h-4 text-primary animate-pulse" />
-                                        <p className="text-slate-400 text-sm">Gestiona el Sushi Fest 2026</p>
+                                        <span className="text-blue-200 text-xs font-medium uppercase tracking-wider">Tu voto:</span>
                                         <span className="text-white font-bold text-sm uppercase tracking-wide">{votedName}</span>
                                     </div>
-                                    <p className="text-slate-400">
-                                        Sushi Fest 2026 Admin
-                                        {/* Place for user specific count if we had it, or just generic check */}
+                                    <div className="text-blue-200/80 text-xs">
                                         ✅
-                                    </p>
+                                    </div>
                                 </div>
                             )}
 
