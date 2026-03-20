@@ -128,7 +128,10 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
             <div className="max-w-2xl mx-auto space-y-6">
                 <div className="relative group">
                     <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                        <Search className="w-5 h-5 text-white group-focus-within:text-[#00B2FF] transition-colors" />
+                        <svg className="w-5 h-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
                     </div>
                     <input
                         type="text"
