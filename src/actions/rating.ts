@@ -67,25 +67,20 @@ export async function submitRatingAndVote(
             }
         }
 
-        // 2.2 Handle Vote Move or New Vote
+        // Handle Vote Move or New Vote
         // We use Service Role to ensure we can delete/upsert correctly
         const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
         if (!serviceRoleKey) return { success: false, error: "Error de configuración (Service Role)" }
         const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey)
 
-        if (otherVote && confirmMoveVote) {
-            // Delete old vote
-            await supabaseAdmin.from('votes').delete().eq('user_id', userId)
-        }
+        // 2.3 Direct Update Flow to avoid onConflict constraint issues
+        // First delete any existing vote for this user (Clear the field)
+        await supabaseAdmin.from('votes').delete().eq('user_id', userId)
 
-        // Upsert new vote
-        // Ensure user_id is the primary identifying constraint for UPSERT
+        // Insert new vote
         const { error: voteError } = await supabaseAdmin
             .from('votes')
-            .upsert(
-                { user_id: userId, locale_id: localeId },
-                { onConflict: 'user_id' }
-            )
+            .insert({ user_id: userId, locale_id: localeId })
 
         if (voteError) {
             console.error("Vote Error:", voteError)

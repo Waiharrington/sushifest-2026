@@ -15,7 +15,7 @@ export function Stars({ value, onChange, label, readOnly }: StarsProps) {
     const [hover, setHover] = useState(0);
 
     return (
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3 overflow-visible">
             <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] leading-none mb-1">
                 {label} {readOnly && <span className="text-[#00B2FF]/60 ml-2">(YA CALIFICADO)</span>}
             </span>

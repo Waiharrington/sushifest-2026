@@ -154,8 +154,8 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                                 <p className="text-white/40 font-black text-[10px] uppercase tracking-widest animate-pulse">Consultando gladiador...</p>
                             </div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
-                                <div className="space-y-2">
+                            <form onSubmit={handleSubmit} className="space-y-8 relative z-10 overflow-visible">
+                                <div className="space-y-2 overflow-visible">
                                     <Stars label="Sabor" value={flavor} onChange={setFlavor} readOnly={hasRating} />
                                     <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                                     <Stars label="Atención" value={service} onChange={setService} readOnly={hasRating} />
