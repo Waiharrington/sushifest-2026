@@ -6,7 +6,8 @@ import { VoteSuccessModal } from "./VoteSuccessModal"
 import { submitRatingAndVote } from "@/actions/rating"
 import { useAuth } from "@/context/AuthContext"
 import { getUserProgress } from "@/actions/user_progress"
-import { Search } from "lucide-react"
+import { Search, RotateCcw } from "lucide-react"
+import { resetUserVotes } from "@/actions/reset_votes"
 
 interface Locale {
     id: string
@@ -98,6 +99,23 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
         }
     }
 
+    const handleReset = async () => {
+        if (!user) return
+        if (!window.confirm("¿ESTÁS SEGURO? Esto borrará todas tus calificaciones y tu voto para que puedas probar el flujo de nuevo.")) return
+        
+        setIsSubmitting(true)
+        const result = await resetUserVotes(user.id)
+        if (result.success) {
+            // Force refresh of progress
+            const newProgress = await getUserProgress(user.id)
+            setProgress(newProgress)
+            window.location.reload() // Pure nuclear refresh to reset all local states
+        } else {
+            alert("Error al resetear: " + result.error)
+        }
+        setIsSubmitting(false)
+    }
+
     if (locales.length === 0) {
         return (
             <div className="text-center py-20">
@@ -125,44 +143,52 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
     return (
         <div className="space-y-10">
             {/* Search and Instructions Section */}
-            <div className="max-w-2xl mx-auto space-y-6">
-                <div className="relative group">
-                    <div 
-                        className="absolute inset-y-0 left-0 flex items-center justify-center" 
-                        style={{ width: '4rem', zIndex: 50, pointerEvents: 'none' }}
-                    >
-                        <svg 
-                            style={{ width: '1.25rem', height: '1.25rem', color: 'white', opacity: 1 }}
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
+            <div className="max-w-2xl mx-auto space-y-8">
+                <div className="space-y-6">
+                    <div className="relative group">
+                        <div 
+                            className="absolute inset-y-0 left-0 flex items-center justify-center" 
+                            style={{ width: '4rem', zIndex: 50, pointerEvents: 'none' }}
                         >
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
+                            <Search className="w-5 h-5 text-white opacity-100" />
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Buscar restaurante..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ paddingLeft: '4rem', paddingRight: '4rem' }}
+                            className="w-full bg-black/80 border border-white/20 rounded-full py-5 outline-none focus:border-[#00B2FF] text-white placeholder:text-white/20 transition-all backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)]"
+                        />
+                        {searchTerm && (
+                            <button 
+                                onClick={() => setSearchTerm("")}
+                                className="absolute inset-y-0 right-6 flex items-center text-white/40 hover:text-white transition-colors"
+                                aria-label="Limpiar búsqueda"
+                                title="Limpiar búsqueda"
+                            >
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 18L6 6l12 12" />
+                                </svg>
+                            </button>
+                        )}
                     </div>
-                    <input
-                        type="text"
-                        placeholder="Buscar restaurante..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{ paddingLeft: '4rem', paddingRight: '4rem' }}
-                        className="w-full bg-black/80 border border-white/20 rounded-full py-5 outline-none focus:border-[#00B2FF] text-white placeholder:text-white/20 transition-all backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)]"
-                    />
-                    {searchTerm && (
-                        <button 
-                            onClick={() => setSearchTerm("")}
-                            className="absolute inset-y-0 right-6 flex items-center text-white/40 hover:text-white transition-colors"
-                            aria-label="Limpiar búsqueda"
-                            title="Limpiar búsqueda"
-                        >
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 18L6 6l12 12" />
-                            </svg>
-                        </button>
-                    )}
+                    <p className="text-center text-[#00B2FF] font-black text-xs uppercase tracking-[0.2em]">
+                        Puedes calificar varios, pero <span className="text-white">votar solo por uno</span>
+                    </p>
                 </div>
-                <p className="text-center text-white/40 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">
-                    Puedes calificar varios, pero <span className="text-[#00B2FF]">votar solo por uno</span>
-                </p>
+                
+                {/* Reset Button for Testing */}
+                <div className="flex justify-center">
+                    <button 
+                        onClick={handleReset}
+                        disabled={isSubmitting}
+                        className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full text-[10px] font-black text-red-500/60 uppercase tracking-widest hover:bg-red-500/20 hover:text-red-500 transition-all active:scale-95 disabled:opacity-30"
+                    >
+                        <RotateCcw className="w-3 h-3" />
+                        Reset Votos (Pruebas)
+                    </button>
+                </div>
             </div>
 
             {filteredLocales.length === 0 ? (
