@@ -1,18 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Particles } from "@/components/Particles";
 import { SponsorBackground } from "@/components/SponsorBackground";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { AuthModal } from "@/components/AuthModal";
+import AuthModal from "@/components/AuthModal";
+import { RiceParticles } from "@/components/RiceParticles";
+import { UserProfile } from "@/types";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export default function Home() {
   const router = useRouter();
   const { user } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleStartVoting = () => {
     if (!user) {
@@ -22,73 +30,212 @@ export default function Home() {
     }
   };
 
+  if (!isMounted) return <main className="min-h-screen bg-[#0A021A]" />;
+
   return (
-    <div className="h-[100svh] bg-background text-white relative overflow-hidden selection:bg-primary/30">
+    <>
+      <MobileHome 
+        handleStartVoting={handleStartVoting} 
+        user={user} 
+      />
+      <DesktopHome 
+        handleStartVoting={handleStartVoting} 
+        user={user} 
+        router={router} 
+      />
+      {isAuthModalOpen && (
+        <AuthModal 
+          key="global-auth-modal"
+          onClose={() => setIsAuthModalOpen(false)} 
+          onSuccess={() => router.push("/votar")}
+        />
+      )}
+    </>
+  );
+}
 
-      {/* Background Layer */}
-      <div className="fixed top-0 left-0 w-full h-[100svh] md:h-screen md:inset-0 z-0 text-white">
+interface HomeProps {
+  handleStartVoting: () => void;
+  user: UserProfile | null;
+  router: AppRouterInstance;
+}
 
-        {/* Note: In a real production setup, we would replace these files with Sushifest specific ones */}
-        {/* Mobile Background (Vertical) */}
-        <div className="absolute inset-0 z-0 block md:hidden">
+
+function MobileHome({ handleStartVoting, user }: Omit<HomeProps, "router">) {
+  return (
+    <div className="block md:hidden h-[100svh] relative overflow-hidden bg-[#0A021A]">
+      {/* Cinematic Vignette Overlay (Sponsor Level Focus) */}
+      <div className="absolute inset-0 z-30 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.5)_100%)]" />
+
+      {/* Background Layer with subtle movement */}
+      <div className="absolute inset-0 z-0">
+        <motion.div 
+          animate={{ scale: [1, 1.05, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0"
+        >
           <Image
-            src="/bg-home-mobile.jpg"
-            alt="Mobile Background"
+            src="/bg-welcome-premium.png"
+            alt="Fondo de Festival"
             fill
-            className="object-cover opacity-50"
+            className="object-cover opacity-80"
             priority
             quality={100}
-            unoptimized
           />
-        </div>
-
-        {/* Desktop Background (Horizontal) */}
-        <div className="absolute inset-0 z-0 hidden md:block">
-          <Image
-            src="/bg-home.jpg"
-            alt="Desktop Background"
-            fill
-            className="object-cover opacity-30"
-            priority
-            quality={100}
-            unoptimized
-          />
-        </div>
-
-        <Particles color="#0537BB" />
-        <SponsorBackground />
+        </motion.div>
+        {/* Overlay to ensure readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
       </div>
 
-      {/* Main Content Layer */}
+      <RiceParticles />
+
+      {/* Content Layer */}
+      <div className="relative z-10 flex flex-col items-center h-full px-6 pt-16 pb-12 text-center">
+        
+        {/* Main Header (Recreated from inspiration) */}
+        <motion.div
+           initial={{ opacity: 0, scale: 0.8 }}
+           animate={{ opacity: 1, scale: 1 }}
+           transition={{ duration: 0.8, type: "spring" }}
+           className="relative w-full max-w-[160px] aspect-[4/3] mb-4 flex items-center justify-center"
+        >
+          {/* Pulsing blue glow behind logo (Intensified Electric Blue) */}
+          <motion.div 
+            animate={{ opacity: [0.1, 0.25, 0.1], scale: [0.8, 1.1, 0.8] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute inset-x-[-20%] inset-y-[-20%] bg-[#0066FF]/40 blur-[85px] rounded-full" 
+          />
+          
+          <Image
+            src="/logo-fest.png"
+            alt="SushiFest 2026 Logo"
+            width={200}
+            height={150}
+            className="w-full h-auto drop-shadow-[0_0_20px_rgba(0,178,255,0.6)] brightness-110 relative z-10"
+            priority
+          />
+
+          {/* Golden crown below logo (from inspiration) - Independent Parallax */}
+          <motion.div
+             animate={{ y: [0, -6, 0], x: [0, 2, 0], scale: [1, 1.1, 1], rotate: [0, 2, 0] }}
+             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+             className="absolute -bottom-2 translate-y-full left-1/2 -translate-x-1/2 z-20 w-44 h-auto"
+          >
+             <Image 
+               src="/crown.png" 
+               alt="Corona" 
+               width={160} 
+               height={130} 
+               className="w-full drop-shadow-[0_8px_25px_rgba(255,183,0,0.6)]"
+             />
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+           initial={{ opacity: 0, y: 10 }}
+           animate={{ opacity: 1, y: [0, -3, 0] }}
+           transition={{ 
+             opacity: { delay: 0.4, duration: 1 },
+             y: { delay: 1.4, duration: 3, repeat: Infinity, ease: "easeInOut" }
+           }}
+           className="mb-auto mt-14 px-4"
+        >
+          <h1 
+            className="text-4xl font-lilita text-white leading-[1.0] mb-6 tracking-tight uppercase"
+            style={{ textShadow: '0 8px 16px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,1), 0 0 100px rgba(0,0,0,0.5)' }}
+          >
+            ¡Vota por el mejor<br />sushi de Panamá!
+          </h1>
+          <p className="text-[0.95rem] text-white/90 font-medium leading-normal drop-shadow-lg px-2">
+            Califica sabor, servicio y presentación. 
+            Solo uno será coronado en el <span className="text-[#00B2FF] font-black whitespace-nowrap">Sushifest 🏆</span>
+          </p>
+        </motion.div>
+
+        {/* Buttons Container */}
+        <div className="w-full flex flex-col gap-4 mt-auto max-w-xs relative z-50">
+          
+          {/* Main Action Button (Inspiration style) */}
+          <motion.button
+            onClick={handleStartVoting}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative h-16 w-full rounded-full overflow-hidden flex items-center justify-center"
+          >
+            {/* Gradient Background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF] bg-[length:200%_auto] animate-gradient-x" />
+            {/* Glow / Border Effect */}
+            <div className="absolute inset-[1px] rounded-full border border-white/30" />
+            <div className="absolute inset-0 rounded-full shadow-[0_0_25px_rgba(0,178,255,0.5)]" />
+            
+            <span className="relative z-10 text-white font-black text-xl drop-shadow-md uppercase tracking-tight">
+              {user ? "CONTINUAR VOTANDO 🍣" : "EMPIEZA A VOTAR 🔥"}
+            </span>
+            
+            {/* Shimmer Effect (Triple Pass Luxury) */}
+            <motion.div 
+               animate={{ x: ['150%', '-150%'] }}
+               transition={{ duration: 2.5, repeat: Infinity, ease: "linear", repeatDelay: 0.5 }}
+               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-[-25deg] z-20" 
+            />
+          </motion.button>
+
+          {/* Secondary Button (Inspiration style) */}
+          <motion.button
+            onClick={() => window.location.href = '/ranking'}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="relative h-14 w-full rounded-full border border-white/20 bg-[#FF4D00]/10 backdrop-blur-md text-white font-bold text-lg uppercase tracking-wider shadow-[0_4px_15px_rgba(255,77,0,0.15)] overflow-hidden"
+          >
+            {/* Subtle inner glow for glass effect */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+            <span className="relative z-10 drop-shadow-sm">Ver el ranking</span>
+          </motion.button>
+        </div>
+
+        {/* Footer (Refined Tracking) */}
+        <footer className="mt-8 text-white/50 text-[10px] uppercase tracking-[0.2em] font-medium opacity-80">
+           © 2026 SUSHIFEST • PANAMÁ
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+function DesktopHome({ handleStartVoting, user, router }: HomeProps) {
+  return (
+    <div className="hidden md:block h-screen bg-background text-white relative overflow-hidden selection:bg-primary/30">
+      {/* Original Desktop Content (Isolated) */}
+      <div className="fixed top-0 left-0 w-full h-screen z-0">
+        <Image
+          src="/bg-home.jpg"
+          alt="Fondo de Escritorio"
+          fill
+          className="object-cover opacity-30"
+          priority
+          quality={100}
+        />
+        <Particles color="#0537BB" />
+        <SponsorBackground />
+        <RiceParticles />
+      </div>
+
       <div className="relative z-10 flex flex-col h-full bg-gradient-to-b from-background/40 to-background/80">
-
-        {/* Hero Section */}
-        <main className="flex-grow flex flex-col items-center justify-center gap-2 md:gap-0 px-4 py-2 md:pt-10 md:pb-12 text-center max-w-lg md:max-w-4xl mx-auto w-full h-full">
-
-
-          {/* Integrated Header: Logo */}
-          <div className="relative w-full max-w-[150px] md:max-w-[180px] aspect-square flex justify-center items-center mb-6">
-
+        <main className="flex-grow flex flex-col items-center justify-center gap-0 px-4 pt-10 pb-12 text-center max-w-4xl mx-auto w-full h-full">
+          
+          <div className="relative w-full max-w-[180px] aspect-square flex justify-center items-center mb-6">
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-                delay: 0.2
-              }}
+              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
               className="relative w-[100%] h-[100%] z-10"
             >
               <motion.div
                 className="w-full h-full relative"
                 animate={{ y: [0, -10, 0] }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2
-                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
               >
                 <Image
                   src="/logo.png"
@@ -100,63 +247,43 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Golden Crown */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1, type: "spring" }}
             className="-mt-16 relative z-20"
           >
-            <Image src="/crown.png" alt="Crown" width={150} height={110} className="w-[110px] md:w-[140px] h-auto drop-shadow-lg mx-auto" />
+            <Image src="/crown.png" alt="Corona" width={140} height={110} className="w-[140px] h-auto drop-shadow-lg mx-auto" />
           </motion.div>
 
-          {/* Main Text (H1) */}
           <motion.h1
             initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ delay: 1, duration: 1, ease: "easeOut" }}
-            className="text-3xl md:text-5xl text-white uppercase leading-tight tracking-tight mb-2 -mt-6 md:-mt-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-lilita"
+            className="text-5xl text-white uppercase leading-tight tracking-tight mb-4 -mt-4 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)] font-lilita"
           >
             ¡Vota por el mejor<br />sushi de Panamá!
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 1, ease: "easeOut" }}
-            className="text-sm md:text-lg text-white/90 font-medium mb-4 md:mb-6 max-w-xs md:max-w-2xl mx-auto leading-relaxed"
+            className="text-lg text-white/90 font-medium mb-6 max-w-2xl mx-auto leading-relaxed"
           >
             Califica sabor, servicio y presentación. <br className="hidden md:block"/> Solo uno será coronado en el <span className="font-bold text-secondary">Sushifest 🏆</span>
           </motion.p>
 
-          {/* CTA Button */}
           <motion.button
             onClick={handleStartVoting}
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{
-              scale: [1, 1.05, 1],
-              opacity: 1,
-              y: 0,
-              boxShadow: ["0 0 10px rgba(5,55,187,0.25)", "0 0 30px rgba(5,55,187,0.45)", "0 0 10px rgba(5,55,187,0.25)"]
-            }}
             whileHover={{ scale: 1.1, boxShadow: "0 0 50px rgba(5,55,187,0.8)" }}
             whileTap={{ scale: 0.95 }}
-            transition={{
-              default: { type: "spring", stiffness: 200, damping: 20 },
-              boxShadow: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
-              scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
-            }}
-            className="group relative bg-gradient-to-r from-primary to-blue-700 text-lg md:text-xl py-4 px-10 rounded-full flex items-center gap-3 border border-white/20 font-lilita tracking-wide mt-4 overflow-hidden"
+            className="group relative bg-gradient-to-r from-primary to-blue-700 text-xl py-4 px-10 rounded-full flex items-center gap-3 border border-white/20 font-lilita tracking-wide mt-4 overflow-hidden"
           >
             <span className="relative z-10">{user ? "CONTINUAR VOTANDO 🍣" : "EMPIEZA A VOTAR 🔥"}</span>
-
-            {/* Button Shine Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-            <div className="absolute top-0 left-0 w-full h-1/2 bg-white/5 rounded-t-full" />
           </motion.button>
 
-          {/* View Ranking Button */}
           <motion.button
             onClick={() => router.push("/ranking")}
             className="text-white/60 hover:text-white font-lilita tracking-widest text-xs mt-10 uppercase underline underline-offset-8 decoration-white/20 transition-colors"
@@ -164,18 +291,11 @@ export default function Home() {
             Ver Ranking de Estrellas ⭐️
           </motion.button>
 
-          <footer className="pb-4 pt-2 md:py-10 text-center text-white/40 text-[10px] mt-auto relative z-20 uppercase tracking-[0.2em]">
-            <p>© 2026 SUSHIFEST • BY EPIC MARKETING • PANAMÁ</p>
+          <footer className="py-10 text-center text-white/40 text-[10px] mt-auto relative z-20 uppercase tracking-[0.2em]">
+            <p>© 2026 SUSHIFEST • PANAMÁ</p>
           </footer>
         </main>
-
       </div>
-
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-        onSuccess={() => router.push("/votar")}
-      />
     </div>
   );
 }
