@@ -36,3 +36,29 @@ body {
 .animate-gradient-x {
   animation: gradient-x 3s ease infinite;
 }
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A021A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0066FF;
+  border-radius: 10px;
+  border: 3px solid #0A021A;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00B2FF;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0066FF #0A021A;
+}

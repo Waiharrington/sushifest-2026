@@ -101,8 +101,8 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                 </div>
 
                 {/* Character */}
-                <div className="absolute -top-10 left-1/2 -track-x-1/2 w-40 h-auto z-50 pointer-events-none translate-x-[-50%]">
-                    <Image src="/sushi-character.png" alt="Character" width={160} height={125} className="w-full h-auto drop-shadow-2xl" priority />
+                <div className="absolute -top-10 left-1/2 -track-x-1/2 w-32 h-auto z-50 pointer-events-none translate-x-[-50%]">
+                    <Image src="/sushi-character.png" alt="Character" width={128} height={100} className="w-full h-auto drop-shadow-2xl" priority />
                 </div>
 
                 {/* Content */}
