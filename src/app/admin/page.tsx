@@ -1,4 +1,4 @@
-import { checkAuth } from "@/actions/admin"
+import { checkAuth, login } from "@/actions/admin"
 import { AdminLogin } from "@/components/AdminLogin"
 import { AdminDashboard } from "@/components/AdminDashboard"
 import { supabase } from "@/lib/supabase"
