@@ -89,8 +89,8 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                     </svg>
                 </button>
 
-                {/* Background Glass Layer (FROSTED) */}
-                <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/40">
+                {/* Background Glass Layer (SOLIDIFIED FOR READABILITY) */}
+                <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden z-0 border border-white/20 shadow-2xl bg-black/90 backdrop-blur-3xl">
                     <div className="absolute inset-0 scale-110 blur-xl opacity-60"> {/* BLURRED PATTERN INSIDE */}
                         <Image src="/modal-bg.png" alt="F" fill className="object-cover" />
                     </div>
