@@ -123,7 +123,7 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
             <div className="max-w-2xl mx-auto space-y-6">
                 <div className="relative group">
                     <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none">
-                        <Search className="w-5 h-5 text-white/50 group-focus-within:text-[#00B2FF] transition-colors" />
+                        <Search className="w-5 h-5 text-white group-focus-within:text-[#00B2FF] transition-colors" />
                     </div>
                     <input
                         type="text"
