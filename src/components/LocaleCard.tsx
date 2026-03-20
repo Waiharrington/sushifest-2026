@@ -108,7 +108,7 @@ export function LocaleCard({ locale, onVoteClick, rank, isRated, isVoted }: Loca
                         {isVoted ? (
                             <>VOTO FINAL 👑</>
                         ) : isRated ? (
-                            <>EDITAR NOTA 🍣</>
+                            <>DETALLES 🍣</>
                         ) : (
                             <>CALIFICAR 🍣</>
                         )}

@@ -15,11 +15,11 @@ export function Stars({ value, onChange, label, readOnly }: StarsProps) {
     const [hover, setHover] = useState(0);
 
     return (
-        <div className="flex flex-col items-center gap-3 overflow-visible">
+        <div className="flex flex-col items-center gap-1.5 md:gap-2 overflow-visible">
             <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] leading-none mb-1">
                 {label} {readOnly && <span className="text-[#00B2FF]/60 ml-2">(YA CALIFICADO)</span>}
             </span>
-            <div className="flex gap-2.5 items-center justify-center overflow-visible py-2">
+            <div className="flex gap-1.5 md:gap-2 items-center justify-center overflow-visible py-1">
                 {[1, 2, 3, 4, 5].map((star) => {
                     const isActuallyActive = star <= value;
                     const isHovered = !readOnly && star <= hover;
@@ -68,7 +68,7 @@ export function Stars({ value, onChange, label, readOnly }: StarsProps) {
                                 style={{ willChange: 'transform' }}
                             >
                                 <Star
-                                    size={40}
+                                    size={32}
                                     strokeWidth={isActive ? 1.5 : 2}
                                     className={`relative z-10 transition-colors duration-200 ${
                                         isActive

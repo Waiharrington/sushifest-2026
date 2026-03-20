@@ -97,7 +97,7 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 40 }}
                         transition={{ type: "spring", damping: 25, stiffness: 400 }}
-                        className="relative w-full max-w-md rounded-[3rem] p-8 pt-16 shadow-[0_25px_100px_rgba(0,0,0,1)] overflow-visible pointer-events-auto will-change-transform"
+                        className="relative w-full max-w-md rounded-[2.5rem] md:rounded-[3rem] p-6 md:p-8 pt-10 md:pt-12 shadow-[0_25px_100px_rgba(0,0,0,1)] overflow-visible pointer-events-auto will-change-transform"
                         style={{ willChange: 'transform, opacity' } as React.CSSProperties}
                     >
                         {/* Background Glass Layer (REDUCED BLUR FOR PERFORMANCE) */}
@@ -113,14 +113,14 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                             />
                         </div>
 
-                        {/* Floating Crown (Optimized) */}
-                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-20 w-32 md:w-36 shadow-2xl">
+                        {/* Floating Crown (Compacted) */}
+                        <div className="absolute -top-8 md:-top-12 left-1/2 -translate-x-1/2 z-20 w-24 md:w-36 shadow-2xl">
                             <Image
                                 src="/crown-header.png"
                                 alt="Crown"
                                 width={150}
                                 height={100}
-                                className="w-full h-auto animate-float"
+                                className="w-full h-auto"
                             />
                         </div>
 
@@ -135,8 +135,8 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                             </svg>
                         </button>
 
-                        <div className="text-center mb-8 relative z-10">
-                            <h2 className="text-4xl font-lilita text-white mb-2 leading-none uppercase tracking-tight">
+                        <div className="text-center mb-5 md:mb-8 relative z-10">
+                            <h2 className="text-2xl md:text-4xl font-lilita text-white mb-1 leading-none uppercase tracking-tight">
                                 {wantToVote ? "TU FAVORITO" : "CALIFICACIÓN"}
                             </h2>
                             <p className="text-[#00B2FF] font-black text-[11px] uppercase tracking-[0.25em] drop-shadow-[0_0_8px_rgba(0,178,255,0.4)]">
@@ -156,8 +156,8 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                                 <p className="text-white/40 font-black text-[10px] uppercase tracking-widest animate-pulse">Consultando gladiador...</p>
                             </div>
                         ) : (
-                            <form onSubmit={handleSubmit} className="space-y-8 relative z-10 overflow-visible">
-                                <div className="space-y-2 overflow-visible">
+                            <form onSubmit={handleSubmit} className="space-y-5 md:space-y-8 relative z-10 overflow-visible">
+                                <div className="space-y-1 md:space-y-2 overflow-visible">
                                     <Stars label="Sabor" value={flavor} onChange={setFlavor} readOnly={hasRating} />
                                     <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-white/5 to-transparent" />
                                     <Stars label="Atención" value={service} onChange={setService} readOnly={hasRating} />
@@ -170,33 +170,33 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                                         backgroundColor: "rgba(0, 178, 255, 0.15)",
                                         borderColor: "rgba(0, 178, 255, 0.4)"
                                     } : {}}
-                                    className="bg-white/5 p-5 rounded-[1.8rem] border border-white/10 space-y-3 transition-colors duration-500"
+                                    className="bg-white/5 p-4 md:p-5 rounded-[1.5rem] md:rounded-[1.8rem] border border-white/10 space-y-2 transition-colors duration-500"
                                 >
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-3 md:gap-4">
                                         <div className="relative flex items-center">
                                             <input
                                                 type="checkbox"
                                                 id="can-vote"
                                                 checked={wantToVote}
                                                 onChange={(e) => setWantToVote(e.target.checked)}
-                                                className="peer appearance-none w-6 h-6 rounded-lg border-2 border-white/20 bg-black/40 checked:bg-[#00B2FF] checked:border-[#00B2FF] transition-all cursor-pointer"
+                                                className="peer appearance-none w-5 h-5 md:w-6 md:h-6 rounded-lg border-2 border-white/20 bg-black/40 checked:bg-[#00B2FF] checked:border-[#00B2FF] transition-all cursor-pointer"
                                             />
-                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 peer-checked:opacity-100 pointer-events-none text-white text-xs font-black">
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 peer-checked:opacity-100 pointer-events-none text-white text-[10px] font-black">
                                                 ✓
                                             </div>
                                         </div>
-                                        <label htmlFor="can-vote" className="text-sm font-black text-white tracking-wide uppercase cursor-pointer">
+                                        <label htmlFor="can-vote" className="text-xs md:text-sm font-black text-white tracking-wide uppercase cursor-pointer">
                                             ¿ES TU FAVORITO? 🏆
                                         </label>
                                     </div>
-                                    <p className="text-[10px] text-white/30 leading-relaxed font-bold uppercase tracking-wider pl-10">
+                                    <p className="text-[9px] md:text-[10px] text-white/30 leading-relaxed font-bold uppercase tracking-wider pl-8 md:pl-10">
                                         {wantToVote 
                                             ? "¡Este restaurante es tu candidato al trono! 🍣👑" 
                                             : "Marca esta casilla si quieres darle tu voto ganador del festival."}
                                     </p>
                                 </motion.div>
 
-                                <div className="flex flex-col gap-4">
+                                <div className="flex flex-col gap-3">
                                     <motion.button
                                         type="submit"
                                         disabled={isSubmitting}
@@ -212,17 +212,17 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                                             ]
                                         } : {}}
                                         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                        className={`w-full h-16 rounded-2xl ${
+                                        className={`w-full h-14 md:h-16 rounded-2xl ${
                                             wantToVote 
                                                 ? "bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF]" 
                                                 : "bg-white/10 hover:bg-white/20 border border-white/5"
-                                        } bg-[length:200%_auto] hover:bg-right transition-all duration-500 text-white font-lilita text-2xl uppercase tracking-wider hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:grayscale shadow-lg`}
+                                        } bg-[length:200%_auto] hover:bg-right transition-all duration-500 text-white font-lilita text-xl md:text-2xl uppercase tracking-wider hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:grayscale shadow-lg`}
                                     >
-                                        <div className="flex items-center justify-center gap-3">
+                                        <div className="flex items-center justify-center gap-2 md:gap-3">
                                             {isSubmitting ? "GUARDANDO..." : (
                                                 <>
                                                     <span>{wantToVote ? "ENVIAR VOTO" : "ENVIAR CALIFICACIÓN"}</span>
-                                                    <span className="text-xl">{wantToVote ? "🍣" : "✨"}</span>
+                                                    <span className="text-lg md:text-xl">{wantToVote ? "🍣" : "✨"}</span>
                                                 </>
                                             )}
                                         </div>
