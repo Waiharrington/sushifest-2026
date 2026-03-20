@@ -50,13 +50,19 @@ export async function submitRatingAndVote(
 
     // 2. Save Vote if requested
     if (wantToVote) {
-        // 2.1 Check if user has a vote ELSEWHERE
-        const { data: otherVote } = await supabase
+        // Handle Vote Move or New Vote
+        // We use Service Role to ensure we can see all votes and delete/upsert correctly
+        const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+        if (!serviceRoleKey) return { success: false, error: "Error de configuración (Service Role)" }
+        const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey)
+
+        // 2.1 Check if user has a vote ELSEWHERE - USING ADMIN TO BYPASS RLS
+        const { data: otherVote } = await supabaseAdmin
             .from('votes')
             .select('locale_id, locales(name)')
             .eq('user_id', userId)
             .neq('locale_id', localeId)
-            .single()
+            .maybeSingle() // Use maybeSingle to avoid 406 errors on empty results
 
         if (otherVote && !confirmMoveVote) {
             const voteData = otherVote as unknown as { locales: { name: string } };
@@ -67,24 +73,16 @@ export async function submitRatingAndVote(
             }
         }
 
-        // Handle Vote Move or New Vote
-        // We use Service Role to ensure we can delete/upsert correctly
-        const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-        if (!serviceRoleKey) return { success: false, error: "Error de configuración (Service Role)" }
-        const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceRoleKey)
-
-        // 2.3 Direct Update Flow to avoid onConflict constraint issues
-        // First delete any existing vote for this user (Clear the field)
+        // 2.2 Clear any existing vote for this user (Clear the field)
         await supabaseAdmin.from('votes').delete().eq('user_id', userId)
 
-        // Insert new vote
+        // 2.3 Insert new vote
         const { error: voteError } = await supabaseAdmin
             .from('votes')
             .insert({ user_id: userId, locale_id: localeId })
 
         if (voteError) {
             console.error("Vote Error:", voteError)
-            // Provide more specific error if possible
             return { success: false, error: "Error de conexión con la arena de votación." }
         }
     }
