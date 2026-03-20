@@ -18,6 +18,7 @@ const lilita = Lilita_One({
 export const metadata: Metadata = {
   title: "Sushifest 🏆",
   description: "Vota por el mejor sushi de la ciudad",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
 };
 
 export default function RootLayout({

@@ -139,7 +139,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                                     placeholder="Ej: Juan Pérez"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-sm"
+                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-base"
                                 />
                             </div>
                         )}
@@ -150,7 +150,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                                 placeholder="Ej: 8-888-888"
                                 value={cedula}
                                 onChange={(e) => setCedula(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-sm"
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-base"
                             />
                         </div>
                         {isRegistering && (
@@ -161,7 +161,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                                     placeholder="Ej: 6666-6666"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-sm"
+                                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-[#00B2FF] text-white text-base"
                                 />
                             </div>
                         )}
