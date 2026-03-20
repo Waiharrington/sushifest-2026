@@ -31,8 +31,10 @@ export function Stars({ value, onChange, label, readOnly }: StarsProps) {
                             onMouseEnter={() => !readOnly && setHover(star)}
                             onMouseLeave={() => !readOnly && setHover(0)}
                             style={{ cursor: readOnly ? "default" : "pointer" }}
-                            className={`text-4xl transition-all duration-300 drop-shadow-[0_0_12px_rgba(255,215,0,0.3)] ${
-                                isActive ? "text-[#FFD700] drop-shadow-[0_0_20px_rgba(255,215,0,0.6)]" : "text-white/5 opacity-50"
+                            className={`text-4xl transition-all duration-300 ${
+                                isActive 
+                                    ? "text-[#FFD700] drop-shadow-[0_0_25px_rgba(255,215,0,0.8)]" 
+                                    : "text-white/40 opacity-60 drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]"
                             }`}
                         >
                             {isActive ? "★" : "☆"}
