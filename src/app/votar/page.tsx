@@ -44,10 +44,10 @@ export default function VotingPage() {
                     >
                         {/* Night Festival Background */}
                         <Image
-                            src="/bg-votar-premium.png"
+                            src="/bg-votar-2026.png"
                             alt="Night Arena Background"
                             fill
-                            className="object-cover opacity-60 md:opacity-50" // DARKER FOR READABILITY
+                            className="object-cover opacity-80" // BETTER VISIBILITY FOR THE NEW TEXTURE
                             priority
                             quality={100}
                         />
@@ -133,7 +133,7 @@ export default function VotingPage() {
 
                 {/* Footer */}
                 <footer className="py-12 text-center text-white/20 text-[10px] z-20 relative uppercase tracking-[0.4em] font-black">
-                    <p>© 2026 SUSHIFEST • BY EPIC MARKETING • PANAMÁ</p>
+                    <p>© 2026 SUSHIFEST • PANAMÁ</p>
                 </footer>
 
             </div>

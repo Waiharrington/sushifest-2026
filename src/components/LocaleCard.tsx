@@ -19,70 +19,61 @@ export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
     const displayImage = locale.image_url || (rank === 1 ? "/sushi-roll-1.png" : "/sushi-roll-2.png");
 
     return (
-        <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: rank * 0.1 }}
-            className="group relative overflow-visible rounded-[2.5rem] p-4 md:p-6 transition-all duration-500 flex flex-col items-center bg-[#0A021A]/80 backdrop-blur-2xl border border-white/10 hover:border-[#00B2FF]/40 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:shadow-[0_0_40px_rgba(0,178,255,0.15)]"
+        <motion.div
+            whileHover={{ y: -5, scale: 1.02 }}
+            className="group relative bg-[#0A021A]/80 backdrop-blur-2xl rounded-[2rem] border border-white/10 overflow-hidden shadow-2xl transition-all hover:border-[#00B2FF]/40 hover:shadow-[0_0_40px_rgba(0,178,255,0.15)] flex flex-col h-full"
         >
-            {/* Glossy Overlay (Reflections) */}
-            <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
-            
-            {/* Rank Badge (Neon Circle) */}
-            <div className="absolute -top-3 -left-3 z-30 w-12 h-12 rounded-full bg-black border-2 border-[#00B2FF] flex items-center justify-center shadow-[0_0_15px_rgba(0,178,255,0.6)]">
-                <span className="font-lilita text-xl text-white drop-shadow-[0_0_8px_rgba(0,178,255,0.8)]">{rank}</span>
-            </div>
-
-            {/* Image Container (Heroic) */}
-            <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden rounded-[1.8rem] z-20">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                <Image
-                    src={displayImage}
-                    alt={locale.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                    priority
-                />
-                
-                {/* Premium Shine Animation */}
-                <motion.div 
-                    animate={{ x: ['-200%', '300%'] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] z-10"
-                />
-            </div>
-
-            {/* Content Section */}
-            <div className="w-full text-center relative z-20">
-                <h3 className="text-2xl md:text-3xl font-lilita text-white mb-2 uppercase tracking-wide leading-none">{locale.name}</h3>
-                
-                {locale.description && (
-                    <p className="text-[#00B2FF]/60 text-[10px] md:text-xs mb-6 line-clamp-2 uppercase font-black tracking-[0.15em] hidden md:block italic">
-                        {locale.description}
-                    </p>
-                )}
-
-                {/* Vote Button (God Tier) */}
-                <button
-                    onClick={() => onVoteClick(locale)}
-                    className="w-full group/btn relative overflow-hidden rounded-2xl h-14 bg-gradient-to-r from-[#0066FF] to-[#00B2FF] p-px transition-all hover:scale-105 active:scale-95"
-                >
-                    <div className="absolute inset-0 bg-black/20 group-hover/btn:bg-transparent transition-colors" />
-                    <div className="relative h-full w-full bg-transparent flex items-center justify-center gap-3">
-                        <span className="text-white font-lilita text-xl tracking-wider uppercase drop-shadow-md">VOTAR AHORA</span>
-                        <span className="text-2xl transform group-hover/btn:rotate-12 transition-transform">🍣</span>
-                    </div>
-                </button>
-
-                {/* Secure Badge */}
-                <div className="mt-4 flex items-center justify-center gap-2 text-[9px] text-white/30 font-black uppercase tracking-widest">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00B2FF] animate-pulse" /> Voto validado
+            {/* Rank Badge (Neon Style) */}
+            <div className="absolute top-3 left-3 z-10">
+                <div className="bg-black/80 backdrop-blur-md border border-[#00B2FF]/40 px-2 py-0.5 rounded-full shadow-[0_0_15px_rgba(0,178,255,0.3)]">
+                    <span className="text-[9px] font-black text-[#00B2FF] italic tracking-tighter">#{rank}</span>
                 </div>
             </div>
 
-            {/* Hover Glow Background */}
-            <div className="absolute inset-6 bg-[#00B2FF]/5 blur-[60px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            {/* Image Container (Cinematic) */}
+            <div className="relative h-28 md:h-36 w-full overflow-hidden">
+                <Image
+                    src={locale.image_url || "/logo.png"}
+                    alt={locale.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A021A] via-transparent to-transparent opacity-80" />
+                
+                {/* Shine Animation Overlay */}
+                <motion.div 
+                    animate={{ x: ['-200%', '300%'] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] pointer-events-none"
+                />
+            </div>
+
+            {/* Content Section (Compact) */}
+            <div className="p-3 md:p-5 flex flex-col flex-grow space-y-2 md:space-y-4">
+                <div className="flex-grow">
+                    <h3 className="text-sm md:text-lg font-lilita text-white leading-tight uppercase tracking-wide group-hover:text-[#00B2FF] transition-colors line-clamp-1">
+                        {locale.name}
+                    </h3>
+                </div>
+
+                {/* Glass Button (God Tier) */}
+                <button
+                    onClick={() => onVoteClick(locale)}
+                    className="relative w-full h-10 md:h-12 overflow-hidden rounded-xl md:rounded-2xl group/btn transition-all active:scale-95"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0066FF] to-[#00B2FF] transition-all group-hover/btn:brightness-110" />
+                    <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent" />
+                    <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-[10px] md:text-sm font-black text-white uppercase tracking-wider">
+                        CALIFICAR <span className="hidden md:inline">Y VOTAR</span>
+                        <motion.span
+                            animate={{ x: [0, 3, 0] }}
+                            transition={{ repeat: Infinity, duration: 1.5 }}
+                        >
+                            →
+                        </motion.span>
+                    </span>
+                </button>
+            </div>
         </motion.div>
     )
 }
