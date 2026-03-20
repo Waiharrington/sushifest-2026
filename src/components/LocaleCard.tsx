@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { Check, Trophy } from "lucide-react"
 
 interface Locale {
     id: string
@@ -12,15 +13,39 @@ interface LocaleCardProps {
     locale: Locale
     onVoteClick: (locale: Locale) => void
     rank?: number
+    isRated?: boolean
+    isVoted?: boolean
 }
 
-export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
+export function LocaleCard({ locale, onVoteClick, rank, isRated, isVoted }: LocaleCardProps) {
     return (
         <motion.div
             whileHover={{ y: -5, scale: 1.02 }}
             whileTap={{ scale: 0.98, borderColor: "#00B2FF", boxShadow: "0 0 30px rgba(0, 178, 255, 0.4)" }}
-            className="group relative bg-black border border-white/20 rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all hover:border-[#00B2FF]/60 hover:shadow-[0_0_50px_rgba(0,0,0,1)] flex flex-col h-full active:border-[#00B2FF]"
+            className={`group relative bg-black border ${isVoted ? 'border-yellow-500/50' : 'border-white/20'} rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all hover:border-[#00B2FF]/60 hover:shadow-[0_0_50px_rgba(0,0,0,1)] flex flex-col h-full active:border-[#00B2FF]`}
         >
+            {/* Status Badges Layer */}
+            <div className="absolute top-3 right-3 z-30 flex gap-2">
+                {isVoted && (
+                    <motion.div 
+                        initial={{ scale: 0, rotate: -20 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        className="bg-yellow-500 rounded-full p-2 shadow-[0_0_20px_rgba(234,179,8,0.6)] border border-yellow-300/50"
+                    >
+                        <Trophy className="w-3 h-3 md:w-4 md:h-4 text-white" />
+                    </motion.div>
+                )}
+                {isRated && !isVoted && (
+                    <motion.div 
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="bg-[#00B2FF] rounded-full p-1.5 md:p-2 shadow-[0_0_15px_rgba(0,178,255,0.4)]"
+                    >
+                        <Check className="w-3 h-3 md:w-4 md:h-4 text-white stroke-[4]" />
+                    </motion.div>
+                )}
+            </div>
+
             {/* Rank Badge (Neon Style) - Only visible if rank exists */}
             {rank !== undefined && (
                 <div className="absolute top-3 left-3 z-10">
@@ -49,9 +74,9 @@ export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
             </div>
 
             {/* Content Section (Compact) */}
-            <div className="p-3 md:p-5 flex flex-col flex-grow space-y-2 md:space-y-4">
-                <div className="flex-grow">
-                    <h3 className="text-sm md:text-lg font-lilita text-white leading-tight uppercase tracking-wide group-hover:text-[#00B2FF] transition-colors line-clamp-1">
+            <div className="p-3 md:p-5 flex flex-col flex-grow space-y-3 md:space-y-4">
+                <div className="flex-grow min-h-[2.5rem] md:min-h-[3rem]">
+                    <h3 className="text-xs md:text-lg font-lilita text-white leading-tight uppercase tracking-wide group-hover:text-[#00B2FF] transition-colors line-clamp-2">
                         {locale.name}
                     </h3>
                 </div>
@@ -59,18 +84,24 @@ export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
                 {/* Glass Button (God Tier) */}
                 <button
                     onClick={() => onVoteClick(locale)}
-                    className="relative w-full h-10 md:h-12 overflow-hidden rounded-xl md:rounded-2xl group/btn transition-all active:scale-95"
+                    className={`relative w-full h-11 md:h-12 overflow-hidden rounded-xl md:rounded-2xl group/btn transition-all active:scale-95 ${isVoted ? 'ring-2 ring-yellow-500/50 ring-offset-2 ring-offset-black' : ''}`}
                 >
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#0066FF] to-[#00B2FF] transition-all group-hover/btn:brightness-110" />
-                    <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent" />
-                    <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-[10px] md:text-sm font-black text-white uppercase tracking-wider">
-                        CALIFICAR 🍣
-                        <motion.span
-                            animate={{ x: [0, 3, 0] }}
-                            transition={{ repeat: Infinity, duration: 1.5 }}
-                        >
-                            →
-                        </motion.span>
+                    <div className={`absolute inset-0 bg-gradient-to-r ${
+                        isVoted 
+                            ? 'from-yellow-600 to-yellow-400' 
+                            : isRated 
+                                ? 'from-white/10 to-white/20 border border-white/10' 
+                                : 'from-[#0066FF] to-[#00B2FF]'
+                    } transition-all group-hover/btn:brightness-110`} />
+                    
+                    <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-[10px] md:text-xs lg:text-sm font-black text-white uppercase tracking-wider">
+                        {isVoted ? (
+                            <>MI FAVORITO 👑</>
+                        ) : isRated ? (
+                            <>EDITAR NOTA 🍣</>
+                        ) : (
+                            <>CALIFICAR 🍣</>
+                        )}
                     </span>
                 </button>
             </div>

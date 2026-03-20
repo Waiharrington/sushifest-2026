@@ -4,7 +4,7 @@ import { LocaleCard } from "./LocaleCard"
 import { RatingModal } from "./RatingModal"
 import { VoteSuccessModal } from "./VoteSuccessModal"
 import { MoveVoteModal } from "./MoveVoteModal"
-import { submitRatingAndVote } from "@/actions/rating"
+import { submitRatingAndVote, getUserInteractions } from "@/actions/rating"
 import { useAuth } from "@/context/AuthContext"
 import { getUserProgress } from "@/actions/user_progress"
 import { Search, RotateCcw } from "lucide-react"
@@ -40,6 +40,7 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
 
     const [searchTerm, setSearchTerm] = useState("")
     const [progress, setProgress] = useState({ ratedCount: 0, totalCount: 0 })
+    const [interactions, setInteractions] = useState<Record<string, { isRated: boolean, isVoted: boolean }>>({})
 
     const filteredLocales = useMemo(() => {
         const term = searchTerm.trim().toLowerCase()
@@ -54,10 +55,11 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
         onModalStateChange?.(isRatingModalOpen || showSuccessModal || isMoveModalOpen)
     }, [isRatingModalOpen, showSuccessModal, isMoveModalOpen, onModalStateChange])
 
-    // Load user progress
+    // Load user progress and interactions
     useEffect(() => {
         if (user) {
             getUserProgress(user.id).then(setProgress)
+            getUserInteractions(user.id).then(setInteractions)
         }
     }, [user, showSuccessModal])
 
@@ -222,6 +224,8 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                                 locale={locale}
                                 onVoteClick={handleRatingClick}
                                 rank={filteredLocales.length === locales.length ? index + 1 : undefined}
+                                isRated={interactions[locale.id]?.isRated || false}
+                                isVoted={interactions[locale.id]?.isVoted || false}
                             />
                         </motion.div>
                     ))}

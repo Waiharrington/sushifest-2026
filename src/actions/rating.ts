@@ -91,3 +91,36 @@ export async function submitRatingAndVote(
     revalidatePath("/votar")
     return { success: true }
 }
+
+export async function getUserInteractions(userId: string) {
+    if (!userId) return {}
+
+    // Fetch all ratings for this user
+    const { data: ratings } = await supabase
+        .from('ratings')
+        .select('locale_id')
+        .eq('user_id', userId)
+
+    // Fetch the unique vote for this user
+    const { data: vote } = await supabase
+        .from('votes')
+        .select('locale_id')
+        .eq('user_id', userId)
+        .single()
+
+    const interactions: Record<string, { isRated: boolean, isVoted: boolean }> = {}
+
+    ratings?.forEach(r => {
+        interactions[r.locale_id] = { isRated: true, isVoted: false }
+    })
+
+    if (vote) {
+        if (!interactions[vote.locale_id]) {
+            interactions[vote.locale_id] = { isRated: false, isVoted: true }
+        } else {
+            interactions[vote.locale_id].isVoted = true
+        }
+    }
+
+    return interactions
+}
