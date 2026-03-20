@@ -130,8 +130,13 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                         placeholder="Buscar restaurante..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-full py-5 pl-16 pr-8 outline-none focus:border-[#00B2FF] focus:bg-white/10 text-white placeholder:text-white/20 transition-all backdrop-blur-xl shadow-2xl"
+                        className="w-full bg-black/60 border border-white/20 rounded-full py-5 pl-16 pr-16 outline-none focus:border-[#00B2FF] focus:bg-black/80 text-white placeholder:text-white/20 transition-all backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
                     />
+                    <div className="absolute inset-y-0 right-6 flex items-center pointer-events-none">
+                        <svg className="w-5 h-5 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                    </div>
                 </div>
                 <p className="text-center text-white/40 text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">
                     Puedes calificar varios, pero <span className="text-[#00B2FF]">votar solo por uno</span>

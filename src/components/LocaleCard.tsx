@@ -21,7 +21,7 @@ export function LocaleCard({ locale, onVoteClick, rank }: LocaleCardProps) {
     return (
         <motion.div
             whileHover={{ y: -5, scale: 1.02 }}
-            className="group relative bg-[#0A021A]/80 backdrop-blur-2xl rounded-[2rem] border border-white/10 overflow-hidden shadow-2xl transition-all hover:border-[#00B2FF]/40 hover:shadow-[0_0_40px_rgba(0,178,255,0.15)] flex flex-col h-full"
+            className="group relative bg-black border border-white/20 rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all hover:border-[#00B2FF]/60 hover:shadow-[0_0_50px_rgba(0,0,0,1)] flex flex-col h-full"
         >
             {/* Rank Badge (Neon Style) */}
             <div className="absolute top-3 left-3 z-10">

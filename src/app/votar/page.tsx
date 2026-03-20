@@ -47,7 +47,7 @@ export default function VotingPage() {
                             src="/bg-votar-2026.png"
                             alt="Night Arena Background"
                             fill
-                            className="object-cover opacity-80" // BETTER VISIBILITY FOR THE NEW TEXTURE
+                            className="object-cover opacity-60" // SLIGHTLY LOWER OPACITY FOR BETTER CARD CONTRAST
                             priority
                             quality={100}
                         />
