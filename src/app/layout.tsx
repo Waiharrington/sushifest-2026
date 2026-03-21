@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
 };
 
-import { Sponsors } from "@/components/Sponsors";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,13 +29,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${montserrat.variable} ${lilita.variable} font-sans antialiased bg-background text-white min-h-screen flex flex-col`}
+        className={`${montserrat.variable} ${lilita.variable} font-sans antialiased bg-background text-white`}
       >
         <AuthProvider>
-          <div className="flex-1">
-            {children}
-          </div>
-          <Sponsors />
+          {children}
         </AuthProvider>
       </body>
     </html>
