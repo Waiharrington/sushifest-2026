@@ -15,6 +15,7 @@ export default function Home() {
   const { user, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsMounted(true), 0);
@@ -25,6 +26,7 @@ export default function Home() {
     if (!user) {
       setIsAuthModalOpen(true);
     } else {
+      setIsNavigating(true);
       router.push("/votar");
     }
   };
@@ -38,6 +40,9 @@ export default function Home() {
           handleStartVoting={handleStartVoting} 
           user={user} 
           logout={logout}
+          isNavigating={isNavigating}
+          router={router}
+          setIsNavigating={setIsNavigating}
         />
       )}
       {!isAuthModalOpen && (
@@ -46,6 +51,8 @@ export default function Home() {
           user={user} 
           router={router} 
           logout={logout}
+          isNavigating={isNavigating}
+          setIsNavigating={setIsNavigating}
         />
       )}
       {isAuthModalOpen && (
@@ -63,10 +70,12 @@ interface HomeProps {
   handleStartVoting: () => void;
   user: UserProfile | null;
   router: AppRouterInstance;
+  isNavigating: boolean;
+  setIsNavigating: (val: boolean) => void;
 }
 
 
-function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router"> & { logout: () => void }) {
+function MobileHome({ handleStartVoting, user, logout, isNavigating, router, setIsNavigating }: Omit<HomeProps, "router"> & { logout: () => void, router: AppRouterInstance }) {
   return (
     <div className="block md:hidden h-[100svh] relative overflow-hidden bg-[#0A021A]">
       {/* Log Out Button (Mobile - Top) */}
@@ -187,7 +196,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
             <div className="absolute inset-0 rounded-full shadow-[0_0_25px_rgba(0,178,255,0.5)]" />
             
             <span className="relative z-10 text-white font-black text-xl drop-shadow-md uppercase tracking-tight">
-              {user ? "CONTINUAR VOTANDO 🍣" : "EMPIEZA A VOTAR 🔥"}
+              {isNavigating ? "CARGANDO... 🌀" : (user ? "CONTINUAR VOTANDO 🍣" : "EMPIEZA A VOTAR 🔥")}
             </span>
             
             {/* Shimmer Effect (Triple Pass Luxury) */}
@@ -200,7 +209,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
 
           {/* Secondary Button (Inspiration style) */}
           <motion.button
-            onClick={() => window.location.href = '/ranking'}
+            onClick={() => { setIsNavigating(true); router.push('/ranking'); }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
@@ -208,7 +217,9 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
           >
             {/* Subtle inner glow for glass effect */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
-            <span className="relative z-10 drop-shadow-sm">Ver el ranking</span>
+            <span className="relative z-10 drop-shadow-sm">
+              {isNavigating ? "CARGANDO... 🌀" : "Ver el ranking"}
+            </span>
           </motion.button>
         </div>
 
@@ -221,7 +232,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
   );
 }
 
-function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { logout: () => void }) {
+function DesktopHome({ handleStartVoting, user, router, logout, isNavigating, setIsNavigating }: HomeProps & { logout: () => void }) {
   return (
     <div className="hidden md:block h-screen bg-[#0A021A] text-white relative overflow-hidden selection:bg-[#00B2FF]/30">
       {/* Log Out Button (Desktop - Top) */}
@@ -332,7 +343,7 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
               <div className="absolute inset-0 bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF] bg-[length:200%_auto] animate-gradient-x" />
               <div className="absolute inset-[1px] rounded-full border border-white/30" />
               <span className="relative z-10 text-white font-black text-2xl drop-shadow-md uppercase tracking-tight">
-                {user ? "CONTINUAR VOTANDO 🍣" : "EMPIEZA A VOTAR 🔥"}
+                {isNavigating ? "CARGANDO... 🌀" : (user ? "CONTINUAR VOTANDO 🍣" : "EMPIEZA A VOTAR 🔥")}
               </span>
               <motion.div 
                  animate={{ x: ['150%', '-150%'] }}
@@ -342,12 +353,12 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
             </motion.button>
 
             <motion.button
-              onClick={() => router.push("/ranking")}
+              onClick={() => { setIsNavigating(true); router.push("/ranking"); }}
               whileHover={{ color: "#ffffff", scale: 1.05 }}
               className="text-white/60 font-black tracking-[0.2em] text-sm uppercase transition-all flex items-center gap-2"
             >
               <span className="w-2 h-2 rounded-full bg-[#FF4D00] shadow-[0_0_8px_#FF4D00]" />
-              Ver el ranking de estrellas
+              {isNavigating ? "CARGANDO... 🌀" : "Ver el ranking de estrellas"}
             </motion.button>
           </div>
 
