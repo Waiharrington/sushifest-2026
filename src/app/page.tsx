@@ -68,7 +68,7 @@ interface HomeProps {
 
 function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router"> & { logout: () => void }) {
   return (
-    <div className="block md:hidden min-h-screen relative overflow-x-hidden bg-black pb-20">
+    <div className="block md:hidden relative overflow-x-hidden bg-black pb-8">
       {/* Log Out Button (Mobile - Top) */}
       {user && (
         <motion.button
@@ -223,7 +223,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
 
 function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { logout: () => void }) {
   return (
-    <div className="hidden md:block min-h-screen bg-black text-white relative overflow-x-hidden selection:bg-[#00B2FF]/30 pb-24">
+    <div className="hidden md:block bg-black text-white relative overflow-x-hidden selection:bg-[#00B2FF]/30 pb-12">
       {/* Log Out Button (Desktop - Top) */}
       {user && (
         <motion.button

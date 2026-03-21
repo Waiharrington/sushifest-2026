@@ -19,7 +19,7 @@ export function Sponsors() {
     const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
 
     return (
-        <footer className="fixed bottom-0 left-0 right-0 py-6 z-[100] pointer-events-none">
+        <footer className="w-full py-4 mt-auto relative z-10 pointer-events-none">
             <div className="max-w-md mx-auto flex items-center justify-center">
                 <div className="relative flex overflow-hidden mask-fade-edges-subtle pointer-events-auto">
                     <motion.div 
