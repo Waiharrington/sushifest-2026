@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
@@ -15,6 +16,7 @@ const sponsors = [
 export function Sponsors() {
     // Doubling for seamless loop
     const doubledSponsors = [...sponsors, ...sponsors]
+    const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
 
     return (
         <footer className="w-full py-8 md:py-16 px-4 mt-auto relative overflow-hidden bg-black/40 backdrop-blur-2xl border-t border-white/5">
@@ -36,31 +38,37 @@ export function Sponsors() {
                         }}
                         className="flex items-center gap-12 md:gap-32 whitespace-nowrap min-w-full"
                     >
-                        {doubledSponsors.map((sponsor, i) => (
-                            <div
-                                key={`${sponsor.name}-${i}`}
-                                className="relative w-28 h-10 md:w-48 md:h-16 shrink-0 flex items-center justify-center opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500 cursor-default group"
-                            >
-                                {/* Placeholder Glass Card */}
-                                <div className="absolute inset-0 border border-white/5 rounded-xl md:rounded-2xl flex items-center justify-center bg-white/[0.01] group-hover:bg-white/[0.03] group-hover:border-white/10 transition-all shadow-lg">
-                                    <span className="text-[9px] md:text-xs text-white/10 font-bold uppercase tracking-widest group-hover:text-white/30 transition-colors">{sponsor.name}</span>
+                        {doubledSponsors.map((sponsor, i) => {
+                            const key = `${sponsor.name}-${i}`;
+                            const hasError = imageErrors[key];
+                            
+                            return (
+                                <div
+                                    key={key}
+                                    className="relative w-28 h-10 md:w-48 md:h-16 shrink-0 flex items-center justify-center opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500 cursor-default group"
+                                >
+                                    {/* Placeholder Glass Card */}
+                                    <div className="absolute inset-0 border border-white/5 rounded-xl md:rounded-2xl flex items-center justify-center bg-white/[0.01] group-hover:bg-white/[0.03] group-hover:border-white/10 transition-all shadow-lg">
+                                        <span className="text-[9px] md:text-xs text-white/10 font-bold uppercase tracking-widest group-hover:text-white/30 transition-colors">
+                                            {sponsor.name}
+                                        </span>
+                                    </div>
+                                    
+                                    {/* Image (Hidden until real paths are used, and if error occurs) */}
+                                    <div className={`relative w-full h-full p-2 translate-z-0 ${hasError ? 'hidden' : ''}`}>
+                                        <Image 
+                                            src={sponsor.logo} 
+                                            alt={sponsor.name}
+                                            fill
+                                            className="object-contain p-2 opacity-0 pointer-events-none transition-opacity duration-700"
+                                            onError={() => {
+                                                setImageErrors((prev: Record<string, boolean>) => ({ ...prev, [key]: true }))
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                                
-                                {/* Image (Hidden by default until real paths are used, but ready) */}
-                                <div className="relative w-full h-full p-2 translate-z-0">
-                                    <Image 
-                                        src={sponsor.logo} 
-                                        alt={sponsor.name}
-                                        fill
-                                        className="object-contain p-2 opacity-0 pointer-events-none transition-opacity duration-700"
-                                        onError={(e) => {
-                                            // Ensure we don't show broken image icons
-                                            (e.target as any).style.display = 'none'
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </motion.div>
                 </div>
             </div>

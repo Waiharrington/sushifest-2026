@@ -98,17 +98,17 @@ export function LocaleCard({ locale, onVoteClick, rank, isRated, isVoted }: Loca
                         isVoted 
                             ? 'shadow-[0_0_20px_rgba(234,179,8,0.4)] border border-yellow-500/50' 
                             : isRated 
-                                ? 'bg-white/5 border border-white/20' 
-                                : 'border-none'
+                                ? 'shadow-[0_0_15px_rgba(30,64,175,0.3)] border border-indigo-400/30' 
+                                : 'border-none shadow-[0_4px_15px_rgba(0,102,255,0.3)]'
                     }`}
                 >
                     <div className={`absolute inset-0 bg-gradient-to-r ${
                         isVoted 
                             ? 'from-yellow-600 via-yellow-400 to-yellow-600' 
                             : isRated 
-                                ? 'from-white/10 to-white/20' 
+                                ? 'from-indigo-900/40 via-blue-600/40 to-indigo-900/40' 
                                 : 'from-[#0066FF] to-[#00B2FF]'
-                    } bg-[length:200%_auto] ${isVoted ? 'animate-shimmer' : ''} transition-all group-hover/btn:brightness-110`} />
+                    } bg-[length:200%_auto] ${isVoted || isRated ? 'animate-shimmer' : ''} transition-all group-hover/btn:brightness-125`} />
                     
                     <span className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-[10px] md:text-sm font-black text-white uppercase tracking-wider px-1">
                         {isVoted ? (
