@@ -14,29 +14,23 @@ const sponsors = [
 ]
 
 export function Sponsors() {
-    // Doubling for seamless loop
+    // Doubling for seamless loop IF we keep marquee, but let's make it more of a subtle bar
     const doubledSponsors = [...sponsors, ...sponsors]
     const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
 
     return (
-        <footer className="w-full py-8 md:py-16 px-4 mt-auto relative overflow-hidden bg-black/40 backdrop-blur-2xl border-t border-white/5">
-            <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-6 md:mb-10">
-                    <h3 className="text-white/30 text-[9px] md:text-xs font-black uppercase tracking-[0.4em] md:tracking-[0.5em]">
-                        Nuestros Aliados Oficiales
-                    </h3>
-                </div>
-
-                <div className="relative flex overflow-hidden mask-fade-edges">
+        <footer className="w-full py-4 mt-auto relative overflow-hidden pointer-events-none">
+            <div className="max-w-xs mx-auto flex items-center justify-center">
+                <div className="relative flex overflow-hidden mask-fade-edges-subtle pointer-events-auto">
                     <motion.div 
                         initial={{ x: 0 }}
                         animate={{ x: "-50%" }}
                         transition={{ 
-                            duration: 25, // Slightly faster for mobile feel
+                            duration: 40, // Much slower and calmer
                             repeat: Infinity, 
                             ease: "linear" 
                         }}
-                        className="flex items-center gap-12 md:gap-32 whitespace-nowrap min-w-full"
+                        className="flex items-center gap-8 md:gap-12 whitespace-nowrap"
                     >
                         {doubledSponsors.map((sponsor, i) => {
                             const key = `${sponsor.name}-${i}`;
@@ -45,22 +39,20 @@ export function Sponsors() {
                             return (
                                 <div
                                     key={key}
-                                    className="relative w-28 h-10 md:w-48 md:h-16 shrink-0 flex items-center justify-center opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500 cursor-default group"
+                                    className="relative w-16 h-6 md:w-20 md:h-8 shrink-0 flex items-center justify-center opacity-40 hover:opacity-100 transition-opacity duration-500 cursor-default group"
                                 >
-                                    {/* Placeholder Glass Card */}
-                                    <div className="absolute inset-0 border border-white/5 rounded-xl md:rounded-2xl flex items-center justify-center bg-white/[0.01] group-hover:bg-white/[0.03] group-hover:border-white/10 transition-all shadow-lg">
-                                        <span className="text-[9px] md:text-xs text-white/10 font-bold uppercase tracking-widest group-hover:text-white/30 transition-colors">
-                                            {sponsor.name}
-                                        </span>
-                                    </div>
+                                    {/* Minimalist Placeholder (No boxes) */}
+                                    <span className={`text-[8px] md:text-[10px] text-white/40 font-bold uppercase tracking-widest group-hover:text-white transition-colors ${!hasError ? 'opacity-100' : 'opacity-100'}`}>
+                                        {sponsor.name}
+                                    </span>
                                     
-                                    {/* Image (Hidden until real paths are used, and if error occurs) */}
-                                    <div className={`relative w-full h-full p-2 translate-z-0 ${hasError ? 'hidden' : ''}`}>
+                                    {/* Image (Ready for real logos) */}
+                                    <div className={`absolute inset-0 p-1 ${hasError ? 'hidden' : ''}`}>
                                         <Image 
                                             src={sponsor.logo} 
                                             alt={sponsor.name}
                                             fill
-                                            className="object-contain p-2 opacity-0 pointer-events-none transition-opacity duration-700"
+                                            className="object-contain opacity-0 pointer-events-none transition-opacity duration-700"
                                             onError={() => {
                                                 setImageErrors((prev: Record<string, boolean>) => ({ ...prev, [key]: true }))
                                             }}
@@ -72,13 +64,10 @@ export function Sponsors() {
                     </motion.div>
                 </div>
             </div>
-            
-            {/* Ambient Glow - Adjusted for mobile */}
-            <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[300px] md:w-[600px] h-[150px] md:h-[300px] bg-primary/5 md:bg-primary/10 blur-[80px] md:blur-[120px] pointer-events-none" />
 
             <style jsx>{`
-                .mask-fade-edges {
-                    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+                .mask-fade-edges-subtle {
+                    mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
                 }
             `}</style>
         </footer>
