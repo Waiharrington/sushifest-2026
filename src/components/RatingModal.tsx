@@ -215,7 +215,9 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                                         className={`w-full h-14 md:h-16 rounded-2xl ${
                                             wantToVote 
                                                 ? "bg-gradient-to-r from-[#0066FF] via-[#00B2FF] to-[#0066FF]" 
-                                                : "bg-white/10 hover:bg-white/20 border border-white/5"
+                                                : isFormValid 
+                                                    ? "bg-[#00B2FF] shadow-[0_0_20px_rgba(0,178,255,0.4)]" 
+                                                    : "bg-white/10 border border-white/5"
                                         } bg-[length:200%_auto] hover:bg-right transition-all duration-500 text-white font-lilita text-xl md:text-2xl uppercase tracking-wider hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:grayscale shadow-lg`}
                                     >
                                         <div className="flex items-center justify-center gap-2 md:gap-3">
