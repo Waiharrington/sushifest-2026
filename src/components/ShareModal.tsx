@@ -18,8 +18,6 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
     const [isGenerating, setIsGenerating] = useState(false)
     const cardRef = useRef<HTMLDivElement>(null)
 
-    if (!isOpen) return null
-
     const handleShare = async (platform: 'whatsapp' | 'instagram' | 'copy') => {
         setIsGenerating(true)
 
@@ -80,23 +78,30 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
     }
 
     return (
-        <AnimatePresence>
-            <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 overflow-hidden">
-                {/* Backdrop Catch */}
-                <div 
-                    onClick={onClose}
-                    className="absolute inset-0 z-0 cursor-pointer pointer-events-auto"
+        <AnimatePresence mode="wait">
+            {isOpen && (
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="fixed inset-0 z-[70] flex items-center justify-center p-4 overflow-hidden"
                 >
-                    <Image 
-                        src="/modal-bg.png" 
-                        alt="Fondo Estampado" 
-                        fill 
-                        className="object-cover opacity-100"
-                        priority 
-                    />
-                    <div className="absolute inset-0 bg-black/10" />
-                    <RiceParticles />
-                </div>
+                    {/* Backdrop Catch */}
+                    <div 
+                        onClick={onClose}
+                        className="absolute inset-0 z-0 cursor-pointer pointer-events-auto"
+                    >
+                        <Image 
+                            src="/modal-bg.png" 
+                            alt="Fondo Estampado" 
+                            fill 
+                            className="object-cover opacity-100"
+                            priority 
+                        />
+                        <div className="absolute inset-0 bg-black/40 backdrop-blur-md" />
+                        <RiceParticles />
+                    </div>
 
                 {/* Main Container */}
                 <motion.div
@@ -217,7 +222,8 @@ export function ShareModal({ isOpen, onClose, votedLocalName, votedLocalImage }:
                     )}
 
                 </motion.div>
-            </div>
-        </AnimatePresence>
-    )
+            </motion.div>
+        )}
+    </AnimatePresence>
+)
 }

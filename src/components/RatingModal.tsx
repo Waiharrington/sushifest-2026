@@ -74,9 +74,15 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
     }
 
     return (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden">
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-hidden"
+                >
                     <div 
                         onClick={onClose}
                         className="absolute inset-0 z-0 cursor-pointer pointer-events-auto"
@@ -88,15 +94,15 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                             className="object-cover opacity-100"
                             priority 
                         />
-                        <div className="absolute inset-0 bg-black/10" />
+                        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
                         <RiceParticles />
                     </div>
-
+ 
                     <motion.div
-                        initial={{ scale: 0.9, opacity: 0, y: 40 }}
+                        initial={{ scale: 0.8, opacity: 0, y: 60 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.9, opacity: 0, y: 40 }}
-                        transition={{ type: "spring", damping: 25, stiffness: 400 }}
+                        exit={{ scale: 0.8, opacity: 0, y: 60 }}
+                        transition={{ type: "spring", damping: 28, stiffness: 350 }}
                         className="relative w-full max-w-md rounded-[2.5rem] md:rounded-[3rem] p-6 md:p-8 pt-10 md:pt-12 shadow-[0_25px_100px_rgba(0,0,0,1)] overflow-visible pointer-events-auto will-change-transform"
                         style={{ willChange: 'transform, opacity' } as React.CSSProperties}
                     >
@@ -233,7 +239,7 @@ export function RatingModal({ isOpen, onClose, onRating, localeId, localeName, i
                             </form>
                         )}
                     </motion.div>
-                </div>
+                </motion.div>
             )}
         </AnimatePresence>
     )
