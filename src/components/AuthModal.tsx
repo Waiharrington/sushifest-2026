@@ -29,7 +29,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
         try {
             if (isRegistering) {
                 if (!name || !phone) return setError("Nombre y teléfono obligatorios");
-                const success = await register(name, cedula, phone);
+                const success = await register(cedula, name, phone);
                 if (success) { onSuccess?.(); onClose(); }
                 else setError("Error al registrar.");
             } else {

@@ -29,7 +29,7 @@ export default function Home() {
     }
   };
 
-  if (!isMounted) return <main className="min-h-screen bg-black" />;
+  if (!isMounted) return <main className="min-h-screen bg-[#0A021A]" />;
 
   return (
     <>
@@ -68,7 +68,7 @@ interface HomeProps {
 
 function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router"> & { logout: () => void }) {
   return (
-    <div className="block md:hidden relative overflow-x-hidden bg-black pb-8">
+    <div className="block md:hidden h-[100svh] relative overflow-hidden bg-[#0A021A]">
       {/* Log Out Button (Mobile - Top) */}
       {user && (
         <motion.button
@@ -223,7 +223,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
 
 function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { logout: () => void }) {
   return (
-    <div className="hidden md:block bg-black text-white relative overflow-x-hidden selection:bg-[#00B2FF]/30 pb-12">
+    <div className="hidden md:block h-screen bg-[#0A021A] text-white relative overflow-hidden selection:bg-[#00B2FF]/30">
       {/* Log Out Button (Desktop - Top) */}
       {user && (
         <motion.button

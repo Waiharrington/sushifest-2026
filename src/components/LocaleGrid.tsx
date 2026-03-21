@@ -189,9 +189,9 @@ export function LocaleGrid({ locales, onModalStateChange }: LocaleGridProps) {
                             </button>
                         )}
                     </div>
-                    <p className="text-center font-black text-[9px] md:text-xs uppercase tracking-[0.2em] leading-relaxed">
+                    <p className="text-center font-black text-[10px] md:text-sm uppercase tracking-[0.2em]">
                         <span className="text-[#00B2FF]">Puedes calificar todos,</span>{" "}
-                        <span className="text-white text-opacity-80">pero votar solo por uno</span>
+                        <span className="text-white text-opacity-90">pero votar solo por uno</span>
                     </p>
                 </div>
                 

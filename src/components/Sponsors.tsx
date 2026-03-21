@@ -1,82 +1,64 @@
 "use client"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
 const sponsors = [
-    { name: "Coca-Cola", logo: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg" },
-    { name: "Uber Eats", logo: "https://upload.wikimedia.org/wikipedia/commons/b/b3/Uber_Eats_2018_logo.svg" },
-    { name: "Epic Games", logo: "https://upload.wikimedia.org/wikipedia/commons/3/31/Epic_Games_logo.svg" },
-    { name: "Mastercard", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" },
-    { name: "PedidosYa", logo: "https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_de_PedidosYa.svg" },
-    { name: "Copa Airlines", logo: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Copa_Airlines_logo.svg" },
+    { name: "Sponsor 1", logo: "/sponsors/logo1.png" },
+    { name: "Sponsor 2", logo: "/sponsors/logo2.png" },
+    { name: "Sponsor 3", logo: "/sponsors/logo3.png" },
+    { name: "Sponsor 4", logo: "/sponsors/logo4.png" },
+    { name: "Sponsor 5", logo: "/sponsors/logo5.png" },
+    { name: "Sponsor 6", logo: "/sponsors/logo6.png" },
 ]
 
 export function Sponsors() {
-    // Doubling for seamless loop IF we keep marquee, but let's make it more of a subtle bar
+    // Doubling for seamless loop
     const doubledSponsors = [...sponsors, ...sponsors]
-    const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
 
     return (
-        <footer className="w-full py-4 mt-auto relative z-10 pointer-events-none">
-            <div className="max-w-md mx-auto flex items-center justify-center">
-                <div className="relative flex overflow-hidden mask-fade-edges-subtle pointer-events-auto">
+        <footer className="w-full py-16 px-4 mt-auto relative overflow-hidden bg-black/40 backdrop-blur-xl border-t border-white/5">
+            <div className="max-w-6xl mx-auto">
+                <div className="text-center mb-10">
+                    <h3 className="text-white/40 text-[10px] md:text-xs font-black uppercase tracking-[0.4em]">
+                        Nuestros Aliados Oficiales
+                    </h3>
+                </div>
+
+                <div className="relative flex overflow-hidden">
                     <motion.div 
                         initial={{ x: 0 }}
                         animate={{ x: "-50%" }}
                         transition={{ 
-                            duration: 50, // Ultra-slow and premium
+                            duration: 30, 
                             repeat: Infinity, 
                             ease: "linear" 
                         }}
-                        className="flex items-center gap-12 md:gap-16 whitespace-nowrap"
+                        className="flex items-center gap-16 md:gap-32 whitespace-nowrap min-w-full"
                     >
-                        {doubledSponsors.map((sponsor, i) => {
-                            const key = `${sponsor.name}-${i}`;
-                            const hasError = imageErrors[key];
-                            
-                            return (
-                                <div
-                                    key={key}
-                                    className="relative w-20 h-8 md:w-24 md:h-10 shrink-0 flex items-center justify-center opacity-30 hover:opacity-100 transition-opacity duration-500 cursor-default group"
-                                >
-                                    {/* Minimalist Placeholder (Hidden if logo works) */}
-                                    {!hasError && (
-                                        <span className="absolute inset-0 flex items-center justify-center text-[7px] md:text-[8px] text-white/5 font-black uppercase tracking-[0.3em] group-hover:text-white/20 transition-colors pointer-events-none">
-                                            {sponsor.name}
-                                        </span>
-                                    )}
-                                    
-                                    {/* Image (High Fidelity Brand Demo) */}
-                                    <div className={`relative w-full h-full p-1 transition-all duration-700 blur-[0.5px] group-hover:blur-0 scale-90 group-hover:scale-100 ${hasError ? 'hidden' : ''}`}>
-                                        <Image 
-                                            src={sponsor.logo} 
-                                            alt={sponsor.name}
-                                            fill
-                                            className="object-contain filter grayscale brightness-200 contrast-125 transition-all duration-700"
-                                            onError={() => {
-                                                setImageErrors((prev: Record<string, boolean>) => ({ ...prev, [key]: true }))
-                                            }}
-                                        />
-                                    </div>
-
-                                    {/* Fallback if all fails */}
-                                    {hasError && (
-                                        <span className="text-[8px] text-white/20 font-bold uppercase tracking-widest">{sponsor.name}</span>
-                                    )}
+                        {doubledSponsors.map((sponsor, i) => (
+                            <div
+                                key={`${sponsor.name}-${i}`}
+                                className="relative w-32 h-12 md:w-48 md:h-16 shrink-0 flex items-center justify-center opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500 cursor-default group"
+                            >
+                                {/* We keep placeholders until user provides real SVG/PNGs */}
+                                <div className="absolute inset-0 border border-white/10 rounded-2xl flex items-center justify-center bg-white/[0.02] group-hover:bg-white/[0.05] transition-colors">
+                                    <span className="text-[10px] md:text-xs text-white/20 font-bold uppercase tracking-widest">{sponsor.name}</span>
                                 </div>
-                            );
-                        })}
+                                <Image 
+                                    src={sponsor.logo} 
+                                    alt={sponsor.name}
+                                    fill
+                                    className="object-contain p-2 opacity-0" // Hidden until real logos are provided
+                                />
+                            </div>
+                        ))}
                     </motion.div>
                 </div>
             </div>
-
-            <style jsx>{`
-                .mask-fade-edges-subtle {
-                    mask-image: linear-gradient(to right, transparent, black 25%, black 75%, transparent);
-                }
-            `}</style>
+            
+            {/* Ambient Glow */}
+            <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/10 blur-[120px] pointer-events-none" />
         </footer>
     )
 }
