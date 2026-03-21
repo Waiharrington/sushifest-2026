@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #010B40;
+  --background: #000000;
   --foreground: #ffffff;
   --primary: #0066FF;
   --secondary: #FF4D00;
@@ -57,13 +57,13 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A021A;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #0066FF;
   border-radius: 10px;
-  border: 3px solid #0A021A;
+  border: 3px solid #000000;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -73,5 +73,5 @@ body {
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #0066FF #0A021A;
+  scrollbar-color: #0066FF #000000;
 }
