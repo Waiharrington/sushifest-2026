@@ -203,7 +203,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
           {user && (
             <motion.button
               onClick={() => {
-                const url = new URL("https://premiosushifest.vercel.app/treasure-hunt");
+                const url = new URL("https://premiosushifest.vercel.app/");
                 url.searchParams.set("cedula", user.cedula);
                 url.searchParams.set("nombre", encodeURIComponent(user.full_name));
                 url.searchParams.set("tel", encodeURIComponent(user.phone));
@@ -375,7 +375,7 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
             {user && (
               <motion.button
                 onClick={() => {
-                  const url = new URL("https://premiosushifest.vercel.app/treasure-hunt");
+                  const url = new URL("https://premiosushifest.vercel.app/");
                   url.searchParams.set("cedula", user.cedula);
                   url.searchParams.set("nombre", encodeURIComponent(user.full_name));
                   url.searchParams.set("tel", encodeURIComponent(user.phone));
