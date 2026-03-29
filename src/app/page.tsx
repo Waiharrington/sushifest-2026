@@ -9,6 +9,7 @@ import AuthModal from "@/components/AuthModal";
 import { RiceParticles } from "@/components/RiceParticles";
 import { UserProfile } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { MapIcon } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
@@ -198,6 +199,35 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
             />
           </motion.button>
 
+          {/* Golden Treasure Hunt Button (Only if logged in) */}
+          {user && (
+            <motion.button
+              onClick={() => {
+                const url = new URL("https://premiosushifest.vercel.app/treasure-hunt");
+                url.searchParams.set("cedula", user.cedula);
+                url.searchParams.set("nombre", encodeURIComponent(user.full_name));
+                url.searchParams.set("tel", encodeURIComponent(user.phone));
+                window.location.href = url.toString();
+              }}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative h-14 w-full rounded-full overflow-hidden flex items-center justify-center shadow-[0_5px_15px_rgba(255,183,0,0.3)]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-600" />
+              <div className="absolute inset-[1px] rounded-full border border-white/30" />
+              <span className="relative z-10 text-slate-900 font-extrabold text-lg flex items-center gap-2 uppercase tracking-wide">
+                <MapIcon className="w-5 h-5" /> LA SAGA CONTINÚA
+              </span>
+              <motion.div 
+                 animate={{ x: ['-150%', '150%'] }}
+                 transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-[-25deg] z-20" 
+              />
+            </motion.button>
+          )}
+
           {/* Secondary Button (Inspiration style) */}
           <motion.button
             onClick={() => window.location.href = '/ranking'}
@@ -340,6 +370,36 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-[-25deg] z-20" 
               />
             </motion.button>
+
+            {/* Golden Treasure Hunt Button Desktop (Only if logged in) */}
+            {user && (
+              <motion.button
+                onClick={() => {
+                  const url = new URL("https://premiosushifest.vercel.app/treasure-hunt");
+                  url.searchParams.set("cedula", user.cedula);
+                  url.searchParams.set("nombre", encodeURIComponent(user.full_name));
+                  url.searchParams.set("tel", encodeURIComponent(user.phone));
+                  window.location.href = url.toString();
+                }}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative h-16 w-full rounded-full overflow-hidden flex items-center justify-center shadow-[0_10px_30px_rgba(255,183,0,0.3)] mt-2"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-600" />
+                <div className="absolute inset-[1px] rounded-full border border-white/30" />
+                <span className="relative z-10 text-slate-900 font-extrabold text-xl flex items-center gap-2 uppercase tracking-wide">
+                  <MapIcon className="w-6 h-6" /> LA SAGA CONTINÚA (PREMIOS)
+                </span>
+                <motion.div 
+                   animate={{ x: ['-150%', '150%'] }}
+                   transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-[-25deg] z-20" 
+                />
+              </motion.button>
+            )}
 
             <motion.button
               onClick={() => router.push("/ranking")}
