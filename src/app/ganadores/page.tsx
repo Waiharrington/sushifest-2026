@@ -7,7 +7,6 @@ import { motion } from "framer-motion"
 import { Trophy, Crown, Medal } from "lucide-react"
 import { getRanking, RankedLocale } from "@/actions/ranking"
 import { Particles } from "@/components/Particles"
-import { SponsorBackground } from "@/components/SponsorBackground"
 
 export default function WinnersPage() {
     const [winners, setWinners] = useState<RankedLocale[]>([])
@@ -56,7 +55,6 @@ export default function WinnersPage() {
                 </div>
                 <div className="absolute inset-0 bg-black/60" />
                 <Particles />
-                <SponsorBackground />
             </div>
 
             {/* Main Content */}

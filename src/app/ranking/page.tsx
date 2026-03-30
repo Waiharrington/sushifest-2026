@@ -9,8 +9,6 @@ import { getRanking, RankedLocale } from "@/actions/ranking"
 import { Particles } from "@/components/Particles"
 import { useSearchParams } from "next/navigation"
 
-import { SponsorBackground } from "@/components/SponsorBackground"
-
 function RankingContent() {
     // Temporarily disabled at the request of the client
     // redirect("/")
@@ -73,7 +71,6 @@ function RankingContent() {
                 </div>
                 <div className="absolute inset-0 bg-background/60" /> {/* Slight overlay for readability */}
                 <Particles color="#0537BB" />
-                <SponsorBackground />
             </div>
 
             <main className="relative z-10 flex flex-col items-center justify-center min-h-screen py-8 px-4 bg-gradient-to-b from-background/40 to-background/80">
