@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat, Lilita_One } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
-import { SponsorBackground } from "@/components/SponsorBackground";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -33,7 +32,6 @@ export default function RootLayout({
         className={`${montserrat.variable} ${lilita.variable} font-sans antialiased bg-background text-white`}
       >
         <AuthProvider>
-          <SponsorBackground />
           {children}
         </AuthProvider>
       </body>
