@@ -116,21 +116,7 @@ export default function AuthModal({ onClose, onSuccess }: AuthModalProps) {
                         {isRegistering ? "Elige el mejor sushi de Panamá" : "Ingresa para votar por tu favorito"}
                     </p>
 
-                    {/* DEMO BUTTON (Testing only) */}
-                    <div className="flex justify-center mb-6">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setCedula("8-888-888");
-                                setName("Demo User");
-                                setPhone("6666-6666");
-                            }}
-                            className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[9px] text-white/40 hover:text-white hover:bg-white/10 transition-all uppercase font-bold tracking-widest flex items-center gap-2"
-                        >
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#00B2FF] animate-pulse" />
-                            RELLENAR DATOS DEMO
-                        </button>
-                    </div>
+
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {isRegistering && (
