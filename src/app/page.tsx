@@ -69,7 +69,7 @@ interface HomeProps {
 
 function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router"> & { logout: () => void }) {
   return (
-    <div className="block md:hidden fixed inset-0 w-full h-full overflow-hidden bg-[#0A021A] touch-none">
+    <div className="block md:hidden fixed inset-0 w-full h-full overflow-hidden touch-none">
       {/* Log Out Button (Mobile - Top) */}
       {user && (
         <motion.button
@@ -86,7 +86,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
       <div className="absolute inset-0 z-30 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.5)_100%)]" />
 
       {/* Background Layer with subtle movement */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-[-20] bg-[#0A021A]">
         <motion.div 
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
@@ -253,7 +253,7 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
 
 function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { logout: () => void }) {
   return (
-    <div className="hidden md:block fixed inset-0 w-full h-full bg-[#0A021A] text-white overflow-hidden selection:bg-[#00B2FF]/30">
+    <div className="hidden md:block fixed inset-0 w-full h-full text-white overflow-hidden selection:bg-[#00B2FF]/30">
       {/* Log Out Button (Desktop - Top) */}
       {user && (
         <motion.button
@@ -272,7 +272,7 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
       <div className="absolute inset-0 z-30 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
 
       {/* Background Layer with subtle movement */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-[-20] bg-[#0A021A]">
         <motion.div 
           animate={{ scale: [1, 1.03, 1] }}
           transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}

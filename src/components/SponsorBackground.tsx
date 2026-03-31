@@ -20,7 +20,7 @@ export function SponsorBackground() {
     const logos = Array(10).fill("/watermark-epic.png")
 
     return (
-        <div className="fixed inset-0 z-[1] overflow-hidden opacity-[0.50] pointer-events-none mix-blend-screen mix-blend-plus-lighter">
+        <div className="fixed inset-0 z-[-10] overflow-hidden opacity-[0.50] pointer-events-none mix-blend-screen mix-blend-plus-lighter">
             <div className="flex justify-between w-full h-full max-w-[95%] mx-auto px-2 md:px-4">
                 {columns.map((col, index) => (
                     <div
