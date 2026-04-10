@@ -15,6 +15,11 @@ const lilita = Lilita_One({
   variable: "--font-lilita",
 });
 
+import { AccessDenied } from "@/components/AccessDenied";
+
+// LOCKOUT FLAG - Set to false to restore access
+const IS_SUSPENDED = true;
+
 export const metadata: Metadata = {
   title: "Sushi Fest 🏆",
   description: "Vota por el mejor sushi de la ciudad",
@@ -32,6 +37,7 @@ export default function RootLayout({
         className={`${montserrat.variable} ${lilita.variable} font-sans antialiased bg-background text-white`}
       >
         <AuthProvider>
+          {IS_SUSPENDED && <AccessDenied />}
           {children}
         </AuthProvider>
       </body>
