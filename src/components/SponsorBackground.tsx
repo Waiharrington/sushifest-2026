@@ -17,10 +17,28 @@ export function SponsorBackground() {
         { duration: 26, delay: -6 },
     ]
 
-    const logos = Array(10).fill("/watermark-epic.png")
+    const logos = [
+        "/watermark-epic.png",
+        "/sponsors/1.png",
+        "/sponsors/2.png",
+        "/sponsors/3.png",
+        "/sponsors/4.png",
+    ]
 
     return (
-        <div className="fixed inset-0 z-[1] overflow-hidden opacity-[0.50] pointer-events-none mix-blend-screen mix-blend-plus-lighter">
+        <div className="fixed inset-0 z-[1] overflow-hidden opacity-[0.70] pointer-events-none mix-blend-screen mix-blend-plus-lighter">
+            <style dangerouslySetInnerHTML={{__html: `
+                @keyframes sponsorMoveUp {
+                    0% { transform: translateY(0); }
+                    100% { transform: translateY(-1000px); }
+                }
+                .sponsor-col {
+                    animation-name: sponsorMoveUp;
+                    animation-timing-function: linear;
+                    animation-iteration-count: infinite;
+                    will-change: transform;
+                }
+            `}} />
             <div className="flex justify-between w-full h-full max-w-[95%] mx-auto px-2 md:px-4">
                 {columns.map((col, index) => (
                     <div
@@ -30,30 +48,31 @@ export function SponsorBackground() {
                             index % 2 === 0 ? 'flex' : 'hidden md:flex'
                         }`}
                     >
-                        <motion.div
-                            animate={{ y: [0, -1000] }}
-                            transition={{
-                                repeat: Infinity,
-                                ease: "linear",
-                                duration: col.duration,
-                                repeatType: "loop"
+                        <div
+                            className="sponsor-col flex flex-col gap-16 md:gap-24 w-full items-center pb-16 md:pb-24"
+                            style={{ 
+                                animationDuration: `${col.duration}s`,
+                                animationDelay: `${col.delay}s`
                             }}
-                            className="flex flex-col gap-16 md:gap-24 w-full items-center pb-16 md:pb-24"
                         >
                             {/* Standard img tag is much more performant than Next/image for 270 cascading particles */}
-                            {[...logos, ...logos, ...logos].map((src, i) => (
-                                <div key={i} className="relative w-16 h-16 md:w-24 md:h-24 opacity-60">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={src}
-                                        alt="sponsor bg"
-                                        loading="lazy"
-                                        decoding="async"
-                                        className="w-full h-full object-contain"
-                                    />
-                                </div>
-                            ))}
-                        </motion.div>
+                            {/* Distribute logos by shifting the array based on column index for better variety */}
+                            {Array.from({ length: 25 }).map((_, i) => {
+                                const logoIndex = (i + index) % logos.length;
+                                const src = logos[logoIndex];
+                                return (
+                                    <div key={i} className="relative w-16 h-16 md:w-24 md:h-24 opacity-80">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img
+                                            src={src}
+                                            alt="sponsor bg"
+                                            decoding="async"
+                                            className="w-full h-full object-contain"
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 ))}
             </div>
