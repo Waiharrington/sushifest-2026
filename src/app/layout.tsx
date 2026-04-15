@@ -18,7 +18,7 @@ const lilita = Lilita_One({
 import { AccessDenied } from "@/components/AccessDenied";
 
 // LOCKOUT FLAG - Set to false to restore access
-const IS_SUSPENDED = true;
+const IS_SUSPENDED = false;
 
 export const metadata: Metadata = {
   title: "Sushi Fest 🏆",
