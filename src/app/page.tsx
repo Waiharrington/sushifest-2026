@@ -10,7 +10,6 @@ import { RiceParticles } from "@/components/RiceParticles";
 import { UserProfile } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { MapIcon } from "lucide-react";
-import { SponsorBackground } from "@/components/SponsorBackground";
 
 export default function Home() {
   const router = useRouter();
@@ -106,7 +105,6 @@ function MobileHome({ handleStartVoting, user, logout }: Omit<HomeProps, "router
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
       </div>
 
-      <SponsorBackground />
       <RiceParticles />
 
       {/* Content Layer */}
@@ -293,7 +291,6 @@ function DesktopHome({ handleStartVoting, user, router, logout }: HomeProps & { 
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80" />
       </div>
 
-      <SponsorBackground />
 
       <div className="relative z-10 flex flex-col h-full items-center justify-center text-center max-w-5xl mx-auto w-full">
           

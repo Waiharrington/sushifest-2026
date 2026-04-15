@@ -16,6 +16,7 @@ const lilita = Lilita_One({
 });
 
 import { AccessDenied } from "@/components/AccessDenied";
+import { SponsorBackground } from "@/components/SponsorBackground";
 
 // LOCKOUT FLAG - Set to false to restore access
 const IS_SUSPENDED = false;
@@ -38,6 +39,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           {IS_SUSPENDED && <AccessDenied />}
+          <SponsorBackground />
           {children}
         </AuthProvider>
       </body>
