@@ -19,8 +19,8 @@ export function SponsorBackground() {
 
     const logos = [
         "/watermark-epic.png",
-        "/sponsors/1.png",
-        "/sponsors/2.png",
+        "/sponsors/logo-sevenes.png",
+        "/sponsors/logo-gplus.png",
         "/sponsors/3.png",
         "/sponsors/4.png",
     ]
